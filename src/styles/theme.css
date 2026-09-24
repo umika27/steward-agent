@@ -1,0 +1,61 @@
+:root {
+  /* Color Palette - Deep Obsidian Dark Theme */
+  --bg-dark-base: #090c15;
+  --bg-dark-surface: #111625;
+  --bg-dark-card: rgba(19, 26, 43, 0.7);
+  --bg-dark-card-hover: rgba(27, 37, 61, 0.85);
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(99, 102, 241, 0.3);
+
+  /* Primary Accent Glows */
+  --accent-primary: #6366f1;
+  --accent-primary-glow: rgba(99, 102, 241, 0.25);
+  --accent-cyan: #06b6d4;
+  --accent-cyan-glow: rgba(6, 182, 212, 0.25);
+
+  /* Text Colors */
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --text-dim: #6b7280;
+
+  /* Status Colors & Glows */
+  --status-idle: #3b82f6;
+  --status-idle-glow: rgba(59, 130, 246, 0.3);
+
+  --status-thinking: #a855f7;
+  --status-thinking-glow: rgba(168, 85, 247, 0.35);
+
+  --status-processing: #06b6d4;
+  --status-processing-glow: rgba(6, 182, 212, 0.35);
+
+  --status-responding: #10b981;
+  --status-responding-glow: rgba(16, 185, 129, 0.35);
+
+  --status-success: #22c55e;
+  --status-success-glow: rgba(34, 197, 94, 0.35);
+
+  --status-warning: #f59e0b;
+  --status-warning-glow: rgba(245, 158, 11, 0.35);
+
+  --status-error: #ef4444;
+  --status-error-glow: rgba(239, 68, 68, 0.35);
+
+  /* Typography */
+  --font-sans: 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Fira Code', monospace;
+
+  /* Glassmorphism & Radii */
+  --glass-bg: rgba(15, 22, 36, 0.65);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --glass-backdrop: blur(16px);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}

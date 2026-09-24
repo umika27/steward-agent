@@ -1,0 +1,92 @@
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  backdrop-filter: var(--glass-backdrop);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: all var(--transition-normal);
+  user-select: none;
+}
+
+.status-dot-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10px;
+  height: 10px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--status-color, var(--accent-primary));
+  box-shadow: 0 0 10px var(--status-glow, var(--accent-primary-glow));
+  transition: background-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.status-dot-ping {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: var(--status-color, var(--accent-primary));
+  opacity: 0.6;
+  animation: statusDotPing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.status-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.status-header-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-label {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-main);
+}
+
+.status-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--status-color, var(--text-muted));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Status specific glowing borders */
+.status-indicator.is-thinking {
+  border-color: rgba(168, 85, 247, 0.3);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
+}
+
+.status-indicator.is-processing {
+  border-color: rgba(6, 182, 212, 0.3);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+}
+
+.status-indicator.is-responding {
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+}
+
+.status-indicator.is-error {
+  border-color: rgba(239, 68, 68, 0.4);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+}

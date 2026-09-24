@@ -1,0 +1,76 @@
+.loading-overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(9, 12, 21, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.pool-ball-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: poolBallSpin 2.8s linear infinite;
+  transform-origin: center center;
+}
+
+.pool-ball-spinner {
+  width: 100%;
+  height: 100%;
+  max-width: 320px;
+  max-height: 320px;
+  object-fit: contain;
+  /* Neutral dark drop shadow only - zero blue/cyan glow or color filters */
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.75));
+  display: block;
+  transform-origin: center center;
+}
+
+@keyframes poolBallSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Accessibility: prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .pool-ball-container,
+  .pool-ball-spinner {
+    animation: none !important;
+  }
+}
+
+/* Responsive Scaling */
+@media (max-width: 768px) {
+  .pool-ball-container {
+    width: 270px;
+    height: 270px;
+  }
+  .pool-ball-spinner {
+    max-width: 270px;
+    max-height: 270px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pool-ball-container {
+    width: 220px;
+    height: 220px;
+  }
+  .pool-ball-spinner {
+    max-width: 220px;
+    max-height: 220px;
+  }
+}

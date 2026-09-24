@@ -1,0 +1,242 @@
+.mock-controls-floating {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  max-width: 480px;
+  width: calc(100vw - 48px);
+  transition: all var(--transition-normal);
+}
+
+.mock-controls-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  background: rgba(17, 24, 39, 0.94);
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(99, 102, 241, 0.3);
+  margin-left: auto;
+  transition: all var(--transition-fast);
+}
+
+.mock-controls-toggle-btn:hover {
+  background: var(--accent-primary);
+  transform: translateY(-2px);
+}
+
+.mock-controls-panel {
+  margin-top: 12px;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  background: rgba(13, 18, 30, 0.95);
+  border: var(--glass-border);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeIn 0.3s ease;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+.mock-panel-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mock-section-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 12px;
+}
+
+/* Speech Lifecycle Test Buttons */
+.mock-speech-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mock-speech-btn {
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  color: var(--accent-cyan);
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all var(--transition-fast);
+}
+
+.mock-speech-btn:hover {
+  background: rgba(6, 182, 212, 0.2);
+  color: #ffffff;
+}
+
+.mock-speech-btn.clear-btn {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #f87171;
+}
+
+.mock-speech-btn.clear-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ffffff;
+}
+
+/* 8 Emotion Testing Grid */
+.mock-emotion-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+@media (max-width: 520px) {
+  .mock-emotion-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.mock-emotion-btn {
+  padding: 7px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.mock-emotion-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--emo-color, rgba(255, 255, 255, 0.2));
+}
+
+.mock-emotion-btn.active {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--emo-color, var(--accent-primary));
+  box-shadow: 0 0 12px var(--emo-glow, rgba(99, 102, 241, 0.3));
+}
+
+.mock-presets-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.mock-preset-btn {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.mock-preset-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.mock-preset-btn.active {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: var(--accent-primary);
+}
+
+.mock-status-pill {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.mock-custom-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mock-input-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mock-textarea {
+  width: 100%;
+  height: 56px;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  resize: none;
+  outline: none;
+}
+
+.mock-textarea:focus {
+  border-color: var(--accent-cyan);
+}
+
+.mock-status-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mock-status-opt {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.mock-status-opt.selected {
+  background: var(--opt-color, var(--accent-primary));
+  color: #ffffff;
+  border-color: transparent;
+}
