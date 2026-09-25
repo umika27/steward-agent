@@ -24,10 +24,46 @@
   user-select: none;
   position: relative;
   will-change: transform;
+  transform-origin: center center;
 }
 
 .butler-floating-group.is-dragging {
   cursor: grabbing;
+}
+
+.butler-floating-group.is-navigating {
+  cursor: default;
+  transition: transform 0.05s linear;
+}
+
+/* Bottom-Right Corner Resize Handle */
+.butler-resize-handle {
+  position: absolute;
+  bottom: 0px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1.5px solid rgba(245, 158, 11, 0.6);
+  color: #fbbf24;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  cursor: nwse-resize;
+  opacity: 0.25;
+  transition: opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+}
+
+.butler-floating-group:hover .butler-resize-handle,
+.butler-resize-handle.is-resizing {
+  opacity: 0.95;
+  background: rgba(245, 158, 11, 0.9);
+  border-color: #ffffff;
+  color: #0f172a;
 }
 
 /* Floating Info / Settings Icon Button (ⓘ) */
