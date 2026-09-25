@@ -1,0 +1,7 @@
+# Backend generated files and local secrets. Existing tracked files are not untracked here.
+__pycache__/
+*.py[cod]
+tmp/demo_runtime/
+.env
+.env.*
+node_modules
