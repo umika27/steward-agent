@@ -1,0 +1,82 @@
+{
+  "machine_id": "WM-001",
+  "category": "washing_machine",
+  "brand": "Samsung",
+  "model": "TEST-WM-2022",
+  "purchase_year": 2022,
+  "purchase_date": "2022-05-14",
+  "serial_number": "SAM-WM2022-88412",
+  "warranty": {
+    "status": "EXPIRED",
+    "expiry_date": "2024-05-14",
+    "coverage_type": "manufacturer_standard",
+    "provider": "Samsung India",
+    "terms_summary": "2-year comprehensive manufacturer warranty (expired)"
+  },
+  "amc": null,
+  "repair_history": [
+    {
+      "repair_id": "REP-2026-001",
+      "case_id": "CASE-2026-019",
+      "date": "2026-05-15",
+      "problem": "not draining",
+      "fault_type": "drainage",
+      "resolution_summary": "Cleared coin filter and flushed drain pump assembly",
+      "cost_inr": 1200,
+      "provider_name": "Samsung Authorised Service - Indiranagar",
+      "parts_replaced": [
+        "drain_filter_gasket"
+      ],
+      "verified_by_household": true
+    },
+    {
+      "repair_id": "REP-002-CASE-2026-101",
+      "case_id": "CASE-2026-101",
+      "date": "2026-09-26",
+      "problem": "not draining",
+      "fault_type": "drainage",
+      "resolution_summary": "Cleared drain pump impeller and flushed drain hose",
+      "cost_inr": 900,
+      "provider_name": "Samsung Authorised Service - Indiranagar",
+      "parts_replaced": [
+        "drain_hose_clamp"
+      ],
+      "verified_by_household": true
+    }
+  ],
+  "failure_history": [
+    {
+      "failure_id": "FAIL-2026-001",
+      "case_id": "CASE-2026-019",
+      "date": "2026-05-14",
+      "problem": "not draining",
+      "fault_type": "drainage",
+      "resolved": true,
+      "notes": "Drum remained full of water after spin cycle"
+    },
+    {
+      "failure_id": "FAIL-002-CASE-2026-101",
+      "case_id": "CASE-2026-101",
+      "date": "2026-09-25",
+      "problem": "not draining",
+      "fault_type": "drainage",
+      "resolved": true,
+      "notes": null
+    }
+  ],
+  "cumulative_repair_spend": 2100,
+  "previous_providers": [
+    {
+      "provider_id": "PRV-SAM-BLR-01",
+      "name": "Samsung Authorised Service - Indiranagar",
+      "phone": "+91-80-4000-1234",
+      "authorised": true,
+      "last_used_date": "2026-09-26",
+      "notes": "Completed CASE-2026-101: Cleared drain pump impeller and flushed drain hose"
+    }
+  ],
+  "current_lifecycle_status": "ACTIVE",
+  "preferred_availability": "Saturday 10:00–16:00",
+  "autonomous_repair_limit_inr": 1500,
+  "estimated_replacement_cost_inr": 24000
+}
