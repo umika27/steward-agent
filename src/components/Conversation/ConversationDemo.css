@@ -7,6 +7,49 @@
   align-items: center;
 }
 
+/* Minimal Top Scene Generate Bar & Button */
+.scene-generate-bar {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  pointer-events: auto;
+}
+
+.generate-scene-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 20px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fbbf24;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s ease;
+}
+
+.generate-scene-btn:hover {
+  background: rgba(245, 158, 11, 0.95);
+  color: #0f172a;
+  border-color: #ffffff;
+  box-shadow: 0 6px 22px rgba(245, 158, 11, 0.6);
+  transform: scale(1.05);
+}
+
+.generate-scene-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* Single Parent Draggable Floating Butler Group */
 .butler-floating-group {
   width: 100%;
@@ -190,3 +233,67 @@
   color: var(--accent-cyan);
   border: 1px solid rgba(6, 182, 212, 0.3);
 }
+
+.info-visualizer-toggle-btn {
+  margin-top: 8px;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.info-visualizer-toggle-btn:hover {
+  background: rgba(245, 158, 11, 0.3);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+}
+
+.info-visualizer-toggle-btn.upload-btn {
+  background: rgba(6, 182, 212, 0.15);
+  border-color: rgba(6, 182, 212, 0.4);
+  color: var(--accent-cyan);
+}
+
+.info-visualizer-toggle-btn.upload-btn:hover {
+  background: rgba(6, 182, 212, 0.3);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.3);
+}
+
+.info-visualizer-toggle-btn.reset-btn {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+
+.info-visualizer-toggle-btn.reset-btn:hover {
+  background: rgba(239, 68, 68, 0.3);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+}
+
+/* Full Viewport Dynamic Background Layer */
+.custom-scene-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 0.3s ease-in-out;
+  pointer-events: none;
+}
+

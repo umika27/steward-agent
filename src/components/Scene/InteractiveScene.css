@@ -1,0 +1,45 @@
+.interactive-scene-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.interactive-scene-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+}
+
+.scene-interactive-hitbox {
+  position: absolute;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  z-index: 3;
+}
+
+.scene-interactive-hitbox:hover,
+.scene-interactive-hitbox.is-hovered {
+  border-color: rgba(56, 189, 248, 0.75);
+  background: rgba(56, 189, 248, 0.08);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.25);
+  transform: scale(1.005);
+}
+
+.scene-interactive-hitbox.is-selected {
+  border-color: #fbbf24;
+  background: rgba(245, 158, 11, 0.14);
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.45);
+  z-index: 5;
+}
+
+.scene-interactive-hitbox.is-selected:hover {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.18);
+  box-shadow: 0 0 22px rgba(245, 158, 11, 0.6);
+}

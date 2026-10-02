@@ -3,23 +3,35 @@ import { useConversationController } from '../../demo/conversationController';
 import { ButlerDisplay } from '../Butler/ButlerDisplay';
 import { SpeechBubble } from '../SpeechBubble/SpeechBubble';
 import { LoadingOverlay } from '../Loading/LoadingOverlay';
+import livingRoomBg from '../../assets/living-room-bg.jpg';
+import { useSceneStore } from '../../scene/sceneStore';
+import { SceneDetectionVisualizer } from '../../scene/SceneDetectionVisualizer';
+import { InteractiveScene } from '../Scene/InteractiveScene';
+import { sceneInteractionController } from '../../scene/sceneInteractionController';
+import { butlerNavigator } from '../../navigation/butlerNavigator';
+import { taskEngine, TASK_EVENT_TYPES } from '../../tasks/taskEngine';
+import { reasoningController } from '../../intelligence/reasoningController';
+import { autonomyController } from '../../autonomy/autonomyController';
 import { ROOM_OBJECTS } from '../../environment/environmentObjects';
-import { ButlerNavigator } from '../../environment/butlerNavigator';
-import { InteractionController } from '../../environment/interactionController';
-import { RoomHotspots } from '../../environment/RoomHotspots';
 import { PurchaseOptions } from '../../environment/PurchaseOptions';
-import { Info, X, Scaling } from 'lucide-react';
+import { Info, X, Scaling, Eye, ShieldAlert, Upload, RotateCcw, Cpu, Sparkles } from 'lucide-react';
+import { getCurrentProviderType, setVisionProviderType } from '../../scene/visionProviders/visionProviderFactory';
+import { globalSceneAnalyzer } from '../../scene/sceneStore';
+import { getImageGenerationProvider } from '../../scene/imageGeneration/imageGenerationProviderFactory';
+import { conditionDecisionController } from '../../scene/conditionDecisionController';
+import { sceneImageStore } from '../../scene/sceneImageStore';
+import { validateSceneContract } from '../../scene/imageGeneration/sceneContractValidator';
 import './ConversationDemo.css';
 
 /**
- * ConversationDemo Component (With Living-Room Environment Navigation & Interaction System)
+ * ConversationDemo Component (With Phase 1 — Scene Perception System)
  *
- * Preserves existing 4 foreground elements + resize handle while adding:
- * - Interactive Room Hotspots (Washing Machine, Cupboard, Telephone)
- * - Automatic smooth Butler movement (moveTo, returnHome) with easing
- * - Scripted appliance diagnostic, cupboard documentation & telephone repair workflow
- * - Compact purchase/replacement options selector
- * - Single SpeechBox message delivery
+ * Integrates:
+ * - Scene Perception Store & Vision Provider Pipeline
+ * - Development-Only Scene Detection Bounding-Box Visualizer
+ * - Living-Room Background & Normalized Object Detection Schema
+ * - Floating Draggable & Resizable Butler Group
+ * - Single SpeechBox Interface
  */
 export const ConversationDemo = ({ stewardState }) => {
   const {
@@ -31,8 +43,135 @@ export const ConversationDemo = ({ stewardState }) => {
     restartConversation,
   } = useConversationController();
 
+  // Phase 1 - 6 Scene Perception & Image Upload Engine
+  const {
+    sceneState,
+    imageSnapshot,
+    isDebugVisualizerOpen,
+    toggleDebugVisualizer,
+    uploadSceneImage,
+    resetSceneImage,
+  } = useSceneStore(livingRoomBg);
+
   const [isLoading, setIsLoading] = useState(false);
   const [showInfoModal, setShowInfoModal] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      taskEngine.cancelTask();
+      butlerNavigator.cancelNavigation();
+      sceneInteractionController.clearSelection();
+      setEnvironmentSpeechText(null);
+      setEmotionOverride(null);
+
+      await uploadSceneImage(file);
+    } catch (err) {
+      alert(err.message || 'Failed to upload scene image');
+    } finally {
+      if (e.target) e.target.value = '';
+    }
+  };
+
+  const handleResetScene = () => {
+    taskEngine.cancelTask();
+    butlerNavigator.cancelNavigation();
+    sceneInteractionController.clearSelection();
+    setEnvironmentSpeechText(null);
+    setEmotionOverride(null);
+
+    resetSceneImage();
+  };
+
+  const handleGenerateScene = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+
+    const maxAttempts = 3;
+    let attempt = 0;
+    let validScene = false;
+    let acceptedSource = null;
+    let acceptedWidth = 1920;
+    let acceptedHeight = 1080;
+
+    try {
+      taskEngine.cancelTask();
+      butlerNavigator.cancelNavigation();
+      sceneInteractionController.clearSelection();
+      setEnvironmentSpeechText(null);
+      setEmotionOverride(null);
+
+      const provider = getImageGenerationProvider();
+
+      while (attempt < maxAttempts && !validScene) {
+        attempt++;
+        const result = await provider.generateScene();
+
+        if (!result || !result.imageSource) {
+          continue;
+        }
+
+        // 1. Normalize image source (Blob vs Object URL vs Data URL vs URL string)
+        let normalizedSrc = result.imageSource;
+        let createdTempUrl = null;
+
+        if (typeof Blob !== 'undefined' && result.imageSource instanceof Blob) {
+          createdTempUrl = URL.createObjectURL(result.imageSource);
+          normalizedSrc = createdTempUrl;
+        }
+
+        const width = result.width || 1920;
+        const height = result.height || 1080;
+
+        // 2. Perform Vision Perception BEFORE setting visible background
+        const newSceneState = await globalSceneAnalyzer.analyzeScene(normalizedSrc, true, {
+          width,
+          height,
+        });
+
+        // 3. Audit Scene Contract (brokenCount >= 1 && brokenCount <= 1)
+        const validation = validateSceneContract(newSceneState);
+
+        if (validation.valid) {
+          validScene = true;
+          acceptedSource = normalizedSrc;
+          acceptedWidth = width;
+          acceptedHeight = height;
+          break;
+        } else {
+          console.warn(`Scene Contract Rejected (Attempt ${attempt}/${maxAttempts}): ${validation.reason}`);
+          if (createdTempUrl) {
+            URL.revokeObjectURL(createdTempUrl);
+          }
+        }
+      }
+
+      if (validScene && acceptedSource) {
+        // 4. ACCEPT: Load validated scene into active image store and render background
+        sceneImageStore.loadGeneratedScene(acceptedSource, acceptedWidth, acceptedHeight);
+
+        setEnvironmentSpeechText('New room prepared.');
+        setEmotionOverride('attentive');
+        setTimeout(() => {
+          setEnvironmentSpeechText(null);
+          setEmotionOverride(null);
+        }, 3000);
+      } else {
+        // Fallback if all 3 generation attempts failed contract validation
+        setEnvironmentSpeechText("I couldn't prepare the room. Try again.");
+        setEmotionOverride('worried');
+      }
+    } catch (err) {
+      console.error('Generation pipeline error:', err);
+      setEnvironmentSpeechText("I couldn't prepare the room. Try again.");
+      setEmotionOverride('worried');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Single Parent Floating Group Position, Scale & Pointer Event State
   const [pos, setPos] = useState({ x: 0, y: 0 });
@@ -57,27 +196,168 @@ export const ConversationDemo = ({ stewardState }) => {
   const skipRevealRef = useRef(null);
   const loadingTimerRef = useRef(null);
 
-  // Initialize Navigator & Interaction Controller Systems
+  // Phase 5 — Task & Interaction Engine Integration
   useEffect(() => {
-    navigatorRef.current = new ButlerNavigator((newPos) => {
-      setPos(newPos);
+    const getGeometryContext = () => {
+      const parentEl = groupRef.current?.parentElement || document.body;
+      const containerWidth = parentEl.clientWidth || window.innerWidth;
+      const containerHeight = parentEl.clientHeight || window.innerHeight;
+      const groupWidth = groupRef.current?.offsetWidth || 320;
+      const groupHeight = groupRef.current?.offsetHeight || 360;
+      const rect = groupRef.current?.getBoundingClientRect();
+      const baseLeft = rect ? rect.left - pos.x : 0;
+      const baseTop = rect ? rect.top - pos.y : 0;
+
+      return {
+        containerWidth,
+        containerHeight,
+        groupWidth,
+        groupHeight,
+        scale,
+        baseLeft,
+        baseTop,
+      };
+    };
+
+    const unsubNav = butlerNavigator.subscribe((event, stateSnapshot) => {
+      if (stateSnapshot.state === 'MOVING') {
+        setIsNavigating(true);
+      } else {
+        setIsNavigating(false);
+      }
     });
 
-    controllerRef.current = new InteractionController({
-      navigator: navigatorRef.current,
-      setPos,
-      setSpeechText: setEnvironmentSpeechText,
-      setEmotionOverride,
-      setIsNavigating,
-      setShowPurchaseOptions,
+    const unsubTask = taskEngine.subscribe((event) => {
+      switch (event.type) {
+        case TASK_EVENT_TYPES.TASK_NAVIGATION_REQUESTED:
+          if (event.returnHome) {
+            butlerNavigator.returnHome((newPixelPos) => {
+              setPos(newPixelPos);
+            }, getGeometryContext());
+          } else if (event.targetObject) {
+            butlerNavigator.navigateTo(
+              event.targetObject,
+              (newPixelPos) => {
+                setPos(newPixelPos);
+              },
+              getGeometryContext()
+            );
+          }
+          break;
+
+        case TASK_EVENT_TYPES.TASK_SPEECH_REQUESTED:
+          setEnvironmentSpeechText(event.text);
+          setEmotionOverride('attentive');
+          break;
+
+        case TASK_EVENT_TYPES.TASK_COMPLETED:
+          setEmotionOverride('confident');
+          setTimeout(() => {
+            setEnvironmentSpeechText(null);
+            setEmotionOverride(null);
+          }, 3500);
+          break;
+
+        case TASK_EVENT_TYPES.TASK_CANCELLED:
+          setEnvironmentSpeechText(null);
+          setEmotionOverride(null);
+          break;
+
+        default:
+          break;
+      }
+    });
+
+    const unsubInteraction = sceneInteractionController.subscribe((event) => {
+      if (event.type === 'SCENE_OBJECT_SELECTED' && event.object) {
+        const outcome = conditionDecisionController.processObjectSelection(event.object, sceneState);
+        if (outcome.action === 'NORMAL_RESPONSE' && outcome.speechText) {
+          setEnvironmentSpeechText(outcome.speechText);
+          setEmotionOverride('confident');
+          setTimeout(() => {
+            setEnvironmentSpeechText(null);
+            setEmotionOverride(null);
+          }, 3500);
+        } else if (outcome.speechText) {
+          setEnvironmentSpeechText(outcome.speechText);
+          setEmotionOverride('thinking');
+        }
+      } else if (event.type === 'SCENE_SELECTION_CLEARED') {
+        taskEngine.cancelTask();
+        setEnvironmentSpeechText(null);
+        setEmotionOverride(null);
+        butlerNavigator.returnHome((newPixelPos) => {
+          setPos(newPixelPos);
+        }, getGeometryContext());
+      }
+    });
+
+    const unsubReasoning = reasoningController.subscribe((event, snapshot) => {
+      switch (snapshot.state) {
+        case 'ANALYZING':
+          setEmotionOverride('thinking');
+          setEnvironmentSpeechText('Analyzing request...');
+          break;
+        case 'PLAN_READY':
+          setEmotionOverride('confident');
+          break;
+        case 'NEEDS_CLARIFICATION':
+          setEmotionOverride('thinking');
+          setEnvironmentSpeechText(snapshot.clarificationQuestion || 'Which object would you like me to inspect?');
+          break;
+        case 'INVALID_PLAN':
+          setEmotionOverride('worried');
+          setEnvironmentSpeechText(snapshot.lastError || 'Invalid task plan generated.');
+          break;
+        case 'NO_TARGET':
+          setEmotionOverride('confused');
+          setEnvironmentSpeechText(snapshot.lastError || 'Target object not found in scene.');
+          break;
+        case 'ERROR':
+          setEmotionOverride('frustrated');
+          setEnvironmentSpeechText(snapshot.lastError || 'Failed to process task reasoning request.');
+          break;
+        default:
+          break;
+      }
+    });
+
+    const unsubAutonomy = autonomyController.subscribe((event, snapshot) => {
+      switch (snapshot.state) {
+        case 'EXECUTING':
+        case 'MONITORING':
+          setEmotionOverride('attentive');
+          break;
+        case 'RECOVERING':
+          setEmotionOverride('worried');
+          setEnvironmentSpeechText('I couldn\'t reach that target. Attempting recovery...');
+          break;
+        case 'REPLANNING':
+          setEmotionOverride('thinking');
+          setEnvironmentSpeechText('The situation changed. Adjusting plan...');
+          break;
+        case 'WAITING_FOR_USER':
+          setEmotionOverride('thinking');
+          break;
+        case 'COMPLETED':
+          setEmotionOverride('relieved');
+          break;
+        case 'FAILED':
+          setEmotionOverride('frustrated');
+          break;
+        default:
+          break;
+      }
     });
 
     return () => {
-      if (navigatorRef.current) {
-        navigatorRef.current.cancel();
-      }
+      unsubNav();
+      unsubTask();
+      unsubInteraction();
+      unsubReasoning();
+      unsubAutonomy();
     };
-  }, []);
+  }, [scale, pos.x, pos.y, sceneState?.objects]);
 
   // Handle Room Object Selection (Washing Machine Workflow Trigger)
   const handleSelectObject = (objectId) => {
@@ -251,14 +531,43 @@ export const ConversationDemo = ({ stewardState }) => {
 
   return (
     <div className="conversation-demo-container">
+      {/* Dynamic Full Viewport Scene Background Layer */}
+      <div
+        className="custom-scene-background"
+        style={{
+          backgroundImage: `linear-gradient(rgba(9, 12, 21, 0.42), rgba(9, 12, 21, 0.48)), url(${imageSnapshot?.source || livingRoomBg})`,
+        }}
+      />
+
       {/* Full Viewport Backdrop-Blurred Loading Screen */}
       <LoadingOverlay isLoading={isLoading} />
 
-      {/* Interactive Environment Room Hotspots Layer */}
-      <RoomHotspots
-        onSelectObject={handleSelectObject}
-        activeObjectId={activeObjectId}
-        isNavigating={isNavigating}
+      {/* Minimal Top Scene Generate Action Bar */}
+      <div className="scene-generate-bar">
+        <button
+          type="button"
+          className="generate-scene-btn"
+          onClick={handleGenerateScene}
+          disabled={isLoading}
+          title="Generate new AI Environment"
+        >
+          <Sparkles size={14} />
+          <span>Generate</span>
+        </button>
+      </div>
+
+      {/* Development-Only Scene Perception Visualizer Overlay */}
+      <SceneDetectionVisualizer
+        sceneState={sceneState}
+        isVisible={isDebugVisualizerOpen}
+        onToggle={toggleDebugVisualizer}
+      />
+
+      {/* Phase 3 Interactive Detected Scene Layer */}
+      <InteractiveScene
+        sceneState={sceneState}
+        imageWidth={imageSnapshot?.width || 1920}
+        imageHeight={imageSnapshot?.height || 1080}
       />
 
       {/* SINGLE PARENT DRAGGABLE & RESIZABLE FLOATING GROUP */}
@@ -361,9 +670,23 @@ export const ConversationDemo = ({ stewardState }) => {
                 </span>
               </div>
               <div className="info-row">
-                <span className="info-label">Navigation State:</span>
+                <span className="info-label">Scene Source:</span>
                 <span className="info-value">
-                  {isNavigating ? 'AUTO NAVIGATING' : 'IDLE / STANDBY'}
+                  {imageSnapshot?.sourceType === 'upload'
+                    ? `UPLOAD (${imageSnapshot.width}x${imageSnapshot.height})`
+                    : `DEFAULT (${imageSnapshot.width}x${imageSnapshot.height})`}
+                </span>
+              </div>
+              <div className="info-row">
+                <span className="info-label">Vision Provider:</span>
+                <span className="info-value status-tag">
+                  {getCurrentProviderType().toUpperCase()} {getCurrentProviderType() === 'ai' ? `(${import.meta.env.VITE_GEMINI_MODEL || 'gemini-2.5-flash'})` : ''}
+                </span>
+              </div>
+              <div className="info-row">
+                <span className="info-label">Scene Perception:</span>
+                <span className="info-value status-tag">
+                  {sceneState?.status?.toUpperCase() || 'IDLE'} ({sceneState?.objects?.length || 0} OBJECTS)
                 </span>
               </div>
               <div className="info-row">
@@ -372,6 +695,87 @@ export const ConversationDemo = ({ stewardState }) => {
                   Turn {turnNumber} of {totalTurns}
                 </span>
               </div>
+
+              {/* Hidden File Input for Image Upload */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/png, image/jpeg, image/jpg, image/webp"
+                onChange={handleFileUpload}
+                style={{ display: 'none' }}
+              />
+
+              {/* Phase 12A Image Generation Trigger */}
+              <button
+                type="button"
+                className="info-visualizer-toggle-btn upload-btn"
+                onClick={() => {
+                  setShowInfoModal(false);
+                  handleGenerateScene();
+                }}
+              >
+                <Sparkles size={13} />
+                <span>GENERATE NEW AI SCENE</span>
+              </button>
+
+              {/* Phase 6 Image Upload Control */}
+              <button
+                type="button"
+                className="info-visualizer-toggle-btn upload-btn"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <Upload size={13} />
+                <span>UPLOAD NEW SCENE IMAGE</span>
+              </button>
+
+              {/* Reset to Default Scene Button */}
+              {imageSnapshot?.sourceType === 'upload' && (
+                <button
+                  type="button"
+                  className="info-visualizer-toggle-btn reset-btn"
+                  onClick={handleResetScene}
+                >
+                  <RotateCcw size={13} />
+                  <span>RESET TO DEFAULT SCENE</span>
+                </button>
+              )}
+
+              {/* Phase 7.1 Provider Switcher Button */}
+              <button
+                type="button"
+                className="info-visualizer-toggle-btn"
+                onClick={() => {
+                  const nextType = getCurrentProviderType() === 'mock' ? 'ai' : 'mock';
+                  setVisionProviderType(nextType);
+                  if (imageSnapshot?.source) {
+                    globalSceneAnalyzer.analyzeScene(imageSnapshot.source, true, {
+                      width: imageSnapshot.width,
+                      height: imageSnapshot.height,
+                    });
+                  }
+                }}
+              >
+                <Cpu size={13} />
+                <span>
+                  {getCurrentProviderType() === 'mock'
+                    ? 'SWITCH TO AI VISION PROVIDER'
+                    : 'SWITCH TO MOCK VISION PROVIDER'}
+                </span>
+              </button>
+
+              {/* Dev Scene Detection Toggle Button */}
+              <button
+                type="button"
+                className="info-visualizer-toggle-btn"
+                onClick={toggleDebugVisualizer}
+              >
+                <Eye size={13} />
+                <span>
+                  {isDebugVisualizerOpen
+                    ? 'HIDE PERCEPTION DETECTION OVERLAY'
+                    : 'SHOW PERCEPTION DETECTION OVERLAY'}
+                </span>
+              </button>
             </div>
           </div>
         </div>
