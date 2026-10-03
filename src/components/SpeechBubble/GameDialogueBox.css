@@ -1,0 +1,347 @@
+/**
+ * Game Dialogue Box Styles
+ * Cinematic RPG game-style aesthetic: sleek translucent glass, amber accents, compact layout.
+ */
+
+.game-dialogue-container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  pointer-events: auto;
+  user-select: text;
+  cursor: pointer;
+  position: relative;
+  z-index: 50;
+}
+
+.game-dialogue-card {
+  position: relative;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 12px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(245, 158, 11, 0.15);
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+.game-dialogue-speaker-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.speaker-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fbbf24;
+  box-shadow: 0 0 6px #fbbf24;
+}
+
+.speaker-name {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #fbbf24;
+  text-transform: uppercase;
+}
+
+.game-dialogue-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.game-dialogue-text {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: #f8fafc;
+  margin: 0;
+  min-height: 1.4em;
+  font-weight: 500;
+}
+
+.game-dialogue-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  background-color: #fbbf24;
+  margin-left: 3px;
+  vertical-align: middle;
+  animation: cursorBlink 0.7s infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Progressive Context Snippet */
+.game-dialogue-context-snippet {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  font-size: 0.75rem;
+  font-family: var(--font-mono, monospace);
+  color: #e2e8f0;
+}
+
+.context-snippet-label {
+  color: #38bdf8;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+}
+
+.context-snippet-value {
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+/* Contextual Choices */
+.game-dialogue-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.game-dialogue-choice-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f1f5f9;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  z-index: 52;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+}
+
+.game-dialogue-choice-btn:hover {
+  background: rgba(245, 158, 11, 0.25);
+  border-color: #fbbf24;
+  color: #fbbf24;
+  transform: translateX(2px);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+
+.game-dialogue-choice-btn.is-primary {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: rgba(245, 158, 11, 0.6);
+  color: #fbbf24;
+}
+
+.game-dialogue-choice-btn.is-primary:hover {
+  background: rgba(245, 158, 11, 0.4);
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+.choice-bullet {
+  color: #fbbf24;
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.choice-text {
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   UNIFIED TEXT & VOICE INPUT
+   Compact single-line input with inline microphone and send buttons.
+   ========================================================================== */
+
+.game-dialogue-input-form {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.game-dialogue-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  padding: 3px 6px 3px 10px;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 52;
+}
+
+.game-dialogue-input-wrapper:focus-within {
+  border-color: rgba(245, 158, 11, 0.7);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.game-dialogue-input-wrapper.is-listening {
+  border-color: #ef4444;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.4);
+  background: rgba(30, 20, 25, 0.9);
+}
+
+.game-dialogue-text-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.82rem;
+  color: #f8fafc;
+  padding: 5px 0;
+  min-width: 80px;
+}
+
+.game-dialogue-text-input::placeholder {
+  color: rgba(148, 163, 184, 0.6);
+  font-size: 0.8rem;
+}
+
+/* Microphone Voice Button (🎙) */
+.game-dialogue-voice-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.game-dialogue-voice-btn:hover {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: #fbbf24;
+  color: #fbbf24;
+  transform: scale(1.05);
+}
+
+.game-dialogue-voice-btn.is-listening {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: #ef4444;
+  color: #ef4444;
+  animation: pulseVoice 1.4s infinite ease-in-out;
+}
+
+.voice-listening-pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+  animation: pulseDot 1s infinite alternate ease-in-out;
+}
+
+@keyframes pulseVoice {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50% { box-shadow: 0 0 12px 2px rgba(239, 68, 68, 0.6); }
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.8); opacity: 0.7; }
+  100% { transform: scale(1.2); opacity: 1; }
+}
+
+/* Send Action Button */
+.game-dialogue-send-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(245, 158, 11, 0.2);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  color: #fbbf24;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.game-dialogue-send-btn:hover:not(:disabled) {
+  background: rgba(245, 158, 11, 0.4);
+  border-color: #ffffff;
+  color: #ffffff;
+  transform: translateX(1px);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+}
+
+.game-dialogue-send-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.1);
+  background: transparent;
+  color: #64748b;
+}
+
+/* Status / Error Micro-notification */
+.game-dialogue-voice-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  color: #94a3b8;
+  padding: 2px 4px;
+}
+
+.voice-status-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #38bdf8;
+}
+
+@media (max-width: 640px) {
+  .game-dialogue-container {
+    max-width: 92vw;
+  }
+  
+  .game-dialogue-choices {
+    flex-direction: column;
+  }
+  
+  .game-dialogue-choice-btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,102 @@
+.interactive-scene-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.interactive-scene-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+}
+
+.scene-interactive-hitbox {
+  position: absolute;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  z-index: 3;
+}
+
+.scene-interactive-hitbox:hover,
+.scene-interactive-hitbox.is-hovered {
+  border-color: rgba(56, 189, 248, 0.75);
+  background: rgba(56, 189, 248, 0.08);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.25);
+  transform: scale(1.005);
+}
+
+.scene-interactive-hitbox.is-selected {
+  border-color: #fbbf24;
+  background: rgba(245, 158, 11, 0.14);
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.45);
+  z-index: 5;
+}
+
+.scene-interactive-hitbox.is-selected:hover {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.18);
+  box-shadow: 0 0 22px rgba(245, 158, 11, 0.6);
+}
+
+/* Subtle Game-like Repair Indicator for Malfunctioning Object */
+.problem-repair-indicator {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.95);
+  border: 1.5px solid #ffffff;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.8), 0 4px 10px rgba(0, 0, 0, 0.5);
+  animation: subtleFloat 2.2s ease-in-out infinite, pulseGlow 2s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.repair-wrench-icon {
+  transform: rotate(-20deg);
+}
+
+/* ==========================================================================
+   FOCUSED INVESTIGATION STATE (POINTER EVENT LOCK)
+   Locks general scene interaction when a broken object is detected.
+   Dialogue & focused broken object have priority; background & other objects
+   do not receive pointer events.
+   ========================================================================== */
+
+.interactive-scene-layer.is-focused-investigation {
+  pointer-events: none !important;
+}
+
+.interactive-scene-layer.is-focused-investigation .interactive-scene-backdrop {
+  pointer-events: none !important;
+}
+
+.interactive-scene-layer.is-focused-investigation .scene-interactive-hitbox.is-inactive-in-focus {
+  pointer-events: none !important;
+  cursor: default !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  opacity: 0.25;
+}
+
+.interactive-scene-layer.is-focused-investigation .scene-interactive-hitbox.is-focused-target {
+  pointer-events: auto;
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.18);
+  box-shadow: 0 0 24px rgba(245, 158, 11, 0.6);
+  z-index: 10;
+}
+
