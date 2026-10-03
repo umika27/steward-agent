@@ -18,7 +18,7 @@ import { conditionDecisionController } from '../../scene/conditionDecisionContro
 import { CaseDashboard } from '../Case/CaseDashboard';
 import { stewardCaseAdapter } from '../../integration/stewardCaseAdapter';
 import { SCENARIO_KEYS } from '../../case/caseTypes';
-import { roomWallpaperManager, LOCAL_ROOM_SCENES } from '../../scene/roomWallpaperManager';
+import { roomWallpaperManager, scenes } from '../../scene/roomWallpaperManager';
 import './ConversationDemo.css';
 
 /**
@@ -39,19 +39,16 @@ export const STORY_STAGES = {
 };
 
 /**
- * ConversationDemo Component (Game-Character Household Presentation)
+ * ConversationDemo Component
  *
- * Opening progression:
- * 1. PAGE LOAD -> Welcome message ("Welcome home. I'm Steward. Let me check things around the house.")
- * 2. SEARCH PROMPT -> "Where should I start looking?" with [ Search the house ] + text & voice input
- * 3. SEARCHING -> Steward explores environment ("Let me take a look around." -> "Something doesn't look right over there.")
- * 4. DISCOVERY -> Steward reaches object, repair wrench 🔧 appears, interaction locks
- * 5. DAMAGE REVEALED -> "There's a problem with this washing machine."
- * 6. INVESTIGATION -> "What should I check first?" with [ Check repair history ], [ Review user manual ], [ Arrange repair service ]
+ * Atomic Scene Architecture:
+ * - currentScene controls: wallpaper, brokenObject, and displayName as ONE synchronized unit.
+ * - Clicking the small scene-change icon (⟳) triggers changeScene() to transition immediately
+ *   to a new random room wallpaper and its corresponding broken object.
  */
 export const ConversationDemo = ({ stewardState }) => {
-  // Local Room Wallpaper State (Deterministic /Settings/ assets, NO AI generation)
-  const [currentRoomScene, setCurrentRoomScene] = useState(() => roomWallpaperManager.getCurrentScene());
+  // ONE Authoritative Scene State
+  const [currentScene, setCurrentScene] = useState(() => roomWallpaperManager.getCurrentScene());
   const [isTransitioningScene, setIsTransitioningScene] = useState(false);
   const [showProblemIndicator, setShowProblemIndicator] = useState(false);
 
@@ -60,7 +57,7 @@ export const ConversationDemo = ({ stewardState }) => {
     imageSnapshot,
     isDebugVisualizerOpen,
     toggleDebugVisualizer,
-  } = useSceneStore(currentRoomScene.wallpaper || livingRoomBg);
+  } = useSceneStore(currentScene.wallpaper || livingRoomBg);
 
   const [isLoading, setIsLoading] = useState(false);
   const [showInfoModal, setShowInfoModal] = useState(false);
@@ -78,7 +75,7 @@ export const ConversationDemo = ({ stewardState }) => {
   const [storyStage, setStoryStage] = useState(STORY_STAGES.INITIAL_WELCOME);
   const [dialogueState, setDialogueState] = useState({
     speaker: 'STEWARD',
-    text: "Welcome home. I'm Steward. Let me check things around the house.",
+    text: "Welcome home. I'm Steward.\nLet me check things around the house.",
     snippet: null,
     choices: [],
   });
@@ -119,7 +116,7 @@ export const ConversationDemo = ({ stewardState }) => {
   /**
    * STEP 1 & 2: Welcome & Search Prompt Initiation Sequence
    */
-  const startWelcomeAndSearchSequence = useCallback((scene = currentRoomScene) => {
+  const startWelcomeAndSearchSequence = useCallback((scene = currentScene) => {
     clearTimers();
     sceneInteractionController.resetSceneInteraction();
     setShowProblemIndicator(false);
@@ -132,7 +129,6 @@ export const ConversationDemo = ({ stewardState }) => {
       choices: [],
     });
 
-    // 0–2.2s: Welcome greeting -> Transition to search command
     const t1 = setTimeout(() => {
       setStoryStage(STORY_STAGES.SEARCH_PROMPT);
       setEmotionOverride('attentive');
@@ -144,14 +140,14 @@ export const ConversationDemo = ({ stewardState }) => {
           { id: 'START_SEARCH', label: 'Search the house', primary: true },
         ],
       });
-    }, 2400);
+    }, 2200);
     autoFlowTimers.current.push(t1);
-  }, [clearTimers, currentRoomScene]);
+  }, [clearTimers, currentScene]);
 
   /**
    * STEP 3, 4, 5 & 6: Search Exploration -> Discovery -> Damage Reveal -> Investigation Choices
    */
-  const performEnvironmentSearch = useCallback((scene = currentRoomScene) => {
+  const performEnvironmentSearch = useCallback((scene = currentScene) => {
     clearTimers();
     setStoryStage(STORY_STAGES.SEARCHING);
     setEmotionOverride('thinking');
@@ -163,10 +159,9 @@ export const ConversationDemo = ({ stewardState }) => {
     });
 
     const brokenData = scene.brokenObject;
-    const label = brokenData.label || 'Appliance';
-    const labelLower = label.toLowerCase();
+    const displayName = scene.displayName || 'appliance';
 
-    // Stage 3a: Environment observation phase (1.4s)
+    // Stage 3a: Environment observation phase (1.3s)
     const t1 = setTimeout(() => {
       setDialogueState({
         speaker: 'STEWARD',
@@ -181,7 +176,7 @@ export const ConversationDemo = ({ stewardState }) => {
           o.condition === 'MALFUNCTIONING' ||
           o.condition === 'DAMAGED' ||
           o.condition === 'BROKEN' ||
-          (o.label || '').toLowerCase().includes(labelLower)
+          (o.label || '').toLowerCase().includes(displayName.toLowerCase())
       ) || brokenData;
 
       // Stage 3b: Navigate towards the problem object
@@ -199,7 +194,7 @@ export const ConversationDemo = ({ stewardState }) => {
           setEmotionOverride('thinking');
           setDialogueState({
             speaker: 'STEWARD',
-            text: `There's a problem with this ${labelLower}.`,
+            text: `There's a problem with this ${displayName}.`,
             snippet: null,
             choices: [],
           });
@@ -210,7 +205,7 @@ export const ConversationDemo = ({ stewardState }) => {
             setEmotionOverride('attentive');
             setDialogueState({
               speaker: 'STEWARD',
-              text: 'It looks like it needs attention. What should I check first?',
+              text: `The ${displayName} isn't behaving normally. What should I check first?`,
               snippet: null,
               choices: [
                 { id: 'CHECK_HISTORY', label: 'Check repair history', primary: true },
@@ -221,17 +216,19 @@ export const ConversationDemo = ({ stewardState }) => {
           }, 2000);
           autoFlowTimers.current.push(t2);
         });
-    }, 1400);
+    }, 1300);
     autoFlowTimers.current.push(t1);
-  }, [clearTimers, currentRoomScene, getGeometryContext, sceneState?.objects]);
+  }, [clearTimers, currentScene, getGeometryContext, sceneState?.objects]);
 
-  // Handle Random Scene Switch via minimal subtle icon
-  const handleRandomSceneChange = useCallback(() => {
+  /**
+   * Atomic Scene Change Handler
+   */
+  const changeScene = useCallback(() => {
     clearTimers();
     setIsTransitioningScene(true);
 
     const nextScene = roomWallpaperManager.selectNextRandomScene();
-    setCurrentRoomScene(nextScene);
+    setCurrentScene(nextScene);
     sceneImageStore.loadDefaultScene(nextScene.wallpaper);
     sceneInteractionController.resetSceneInteraction();
     setShowProblemIndicator(false);
@@ -251,10 +248,9 @@ export const ConversationDemo = ({ stewardState }) => {
   // Direct manual inspection trigger (if user clicks the focused object)
   const triggerDirectInspectionFlow = useCallback((targetObj) => {
     clearTimers();
-    const brokenData = currentRoomScene.brokenObject;
+    const brokenData = currentScene.brokenObject;
     const target = targetObj || brokenData;
-    const label = target.label || 'Appliance';
-    const labelLower = label.toLowerCase();
+    const displayName = currentScene.displayName || 'appliance';
     const issueDesc = brokenData.issueDescription || 'A malfunction has been detected.';
 
     setShowProblemIndicator(true);
@@ -263,7 +259,7 @@ export const ConversationDemo = ({ stewardState }) => {
     setEmotionOverride('thinking');
     setDialogueState({
       speaker: 'STEWARD',
-      text: `Moving to inspect the ${labelLower}...`,
+      text: `Moving to inspect the ${displayName}...`,
       snippet: null,
       choices: [],
     });
@@ -279,7 +275,7 @@ export const ConversationDemo = ({ stewardState }) => {
         setEmotionOverride('thinking');
         setDialogueState({
           speaker: 'STEWARD',
-          text: `Inspecting the ${labelLower}... ${issueDesc}`,
+          text: `Inspecting the ${displayName}... ${issueDesc}`,
           snippet: null,
           choices: [],
         });
@@ -289,7 +285,7 @@ export const ConversationDemo = ({ stewardState }) => {
           setEmotionOverride('attentive');
           setDialogueState({
             speaker: 'STEWARD',
-            text: `The ${labelLower} isn't behaving normally. What should I check first?`,
+            text: `The ${displayName} isn't behaving normally. What should I check first?`,
             snippet: null,
             choices: [
               { id: 'CHECK_HISTORY', label: 'Check repair history', primary: true },
@@ -300,7 +296,7 @@ export const ConversationDemo = ({ stewardState }) => {
         }, 2000);
         autoFlowTimers.current.push(t3);
       });
-  }, [clearTimers, currentRoomScene, getGeometryContext]);
+  }, [clearTimers, currentScene, getGeometryContext]);
 
   // Subscribe to Navigator, Task Engine, Scene Interactions
   useEffect(() => {
@@ -346,13 +342,13 @@ export const ConversationDemo = ({ stewardState }) => {
 
     const unsubInteraction = sceneInteractionController.subscribe((event) => {
       if (event.type === 'SCENE_OBJECT_SELECTED' && event.object) {
-        const brokenData = currentRoomScene.brokenObject;
+        const brokenData = currentScene.brokenObject;
         const isBroken =
           event.object.condition === 'MALFUNCTIONING' ||
           event.object.condition === 'DAMAGED' ||
           event.object.condition === 'BROKEN' ||
           event.object.id === brokenData.id ||
-          (event.object.label || '').toLowerCase().includes(brokenData.label.toLowerCase());
+          (event.object.label || '').toLowerCase().includes(currentScene.displayName.toLowerCase());
 
         if (isBroken) {
           clearTimers();
@@ -377,11 +373,11 @@ export const ConversationDemo = ({ stewardState }) => {
       unsubTask();
       unsubInteraction();
     };
-  }, [clearTimers, currentRoomScene, getGeometryContext, sceneState, triggerDirectInspectionFlow]);
+  }, [clearTimers, currentScene, getGeometryContext, sceneState, triggerDirectInspectionFlow]);
 
-  // Initial mount trigger: Start from INITIAL_WELCOME
+  // Initial mount trigger
   useEffect(() => {
-    startWelcomeAndSearchSequence(currentRoomScene);
+    startWelcomeAndSearchSequence(currentScene);
     return () => clearTimers();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -462,14 +458,13 @@ export const ConversationDemo = ({ stewardState }) => {
 
   // Handle Progressive Game Dialogue Choices
   const handleDialogueChoiceSelect = (choice) => {
-    const brokenData = currentRoomScene.brokenObject;
-    const labelLower = brokenData.label.toLowerCase();
-    const serviceName = brokenData.serviceType || 'Authorized Service Care';
-    const quoteVal = brokenData.quoteAmount || '₹900';
+    const displayName = currentScene.displayName || 'appliance';
+    const serviceName = currentScene.serviceType || currentScene.brokenObject.serviceType || 'Authorized Service Care';
+    const quoteVal = currentScene.quoteAmount || currentScene.brokenObject.quoteAmount || '₹900';
 
     switch (choice.id) {
       case 'START_SEARCH': {
-        performEnvironmentSearch(currentRoomScene);
+        performEnvironmentSearch(currentScene);
         break;
       }
 
@@ -478,10 +473,10 @@ export const ConversationDemo = ({ stewardState }) => {
         setEmotionOverride('attentive');
         setDialogueState({
           speaker: 'STEWARD',
-          text: `Checking persistent memory for ${labelLower}... Prior maintenance recorded: routine diagnostic inspection and filter service (verified).`,
+          text: `Checking persistent memory for ${displayName}... Prior maintenance recorded: routine diagnostic inspection and filter service (verified).`,
           snippet: {
             label: 'PREVIOUS RECORD',
-            value: `Maintenance history verified · Logged in household ledger`,
+            value: `Maintenance history verified for ${displayName} · Logged in household ledger`,
           },
           choices: [
             { id: 'CHECK_MANUAL', label: 'Review user manual' },
@@ -501,7 +496,7 @@ export const ConversationDemo = ({ stewardState }) => {
           choices: [],
         });
 
-        const docObj = (sceneState?.objects || currentRoomScene.objects || []).find(
+        const docObj = (sceneState?.objects || currentScene.objects || []).find(
           (o) => o.category === 'documents' || /manual|guide/i.test(o.label)
         ) || {
           id: 'det_user_manual_01',
@@ -519,18 +514,18 @@ export const ConversationDemo = ({ stewardState }) => {
             setEmotionOverride('thinking');
             setDialogueState({
               speaker: 'STEWARD',
-              text: `Reviewing technical service manual for ${brokenData.label}... Component wear diagnosed.`,
+              text: `Reviewing technical service manual for ${displayName}... Component wear diagnosed.`,
               snippet: {
                 label: 'DIAGNOSIS',
-                value: `${brokenData.issueDescription || 'Hardware malfunction requiring technician service'}`,
+                value: `${currentScene.brokenObject.issueDescription || 'Hardware malfunction requiring technician service'}`,
               },
               choices: [],
             });
 
             setTimeout(() => {
-              const targetObj = (sceneState?.objects || currentRoomScene.objects || []).find(
-                (o) => o.id === brokenData.id || (o.label || '').toLowerCase().includes(labelLower)
-              ) || brokenData;
+              const targetObj = (sceneState?.objects || currentScene.objects || []).find(
+                (o) => o.id === currentScene.brokenObject.id || (o.label || '').toLowerCase().includes(displayName.toLowerCase())
+              ) || currentScene.brokenObject;
 
               butlerNavigator
                 .navigateTo(
@@ -541,10 +536,10 @@ export const ConversationDemo = ({ stewardState }) => {
                 .then(() => {
                   setDialogueState({
                     speaker: 'STEWARD',
-                    text: `Diagnosis confirmed for ${labelLower}. How shall I proceed?`,
+                    text: `Diagnosis confirmed for ${displayName}. How shall I proceed?`,
                     snippet: {
                       label: 'DIAGNOSIS',
-                      value: `${brokenData.issueDescription || 'Hardware fault verified'}`,
+                      value: `${currentScene.brokenObject.issueDescription || 'Hardware fault verified'}`,
                     },
                     choices: [
                       { id: 'ARRANGE_REPAIR', label: 'Arrange repair service', primary: true },
@@ -585,7 +580,7 @@ export const ConversationDemo = ({ stewardState }) => {
           choices: [],
         });
 
-        const phoneObj = (sceneState?.objects || currentRoomScene.objects || []).find((o) =>
+        const phoneObj = (sceneState?.objects || currentScene.objects || []).find((o) =>
           /phone|telephone/i.test(o.label)
         ) || {
           id: 'det_telephone_01',
@@ -678,7 +673,7 @@ export const ConversationDemo = ({ stewardState }) => {
           (newPixelPos) => setPos(newPixelPos),
           getGeometryContext()
         );
-        startWelcomeAndSearchSequence(currentRoomScene);
+        startWelcomeAndSearchSequence(currentScene);
         break;
       }
 
@@ -795,11 +790,12 @@ export const ConversationDemo = ({ stewardState }) => {
 
   return (
     <div className="conversation-demo-container">
-      {/* 1. Dynamic Full Viewport Scene Background Layer (Local Predefined Wallpapers) */}
+      {/* 1. Dynamic Full Viewport Scene Background Layer (Directly driven by currentScene.wallpaper) */}
       <div
+        key={currentScene.id}
         className={`custom-scene-background ${isTransitioningScene ? 'is-fading' : ''}`}
         style={{
-          backgroundImage: `linear-gradient(rgba(9, 12, 21, 0.42), rgba(9, 12, 21, 0.48)), url(${imageSnapshot?.source || currentRoomScene.wallpaper || livingRoomBg})`,
+          backgroundImage: `linear-gradient(rgba(9, 12, 21, 0.42), rgba(9, 12, 21, 0.48)), url(${currentScene.wallpaper || livingRoomBg})`,
         }}
       />
 
@@ -811,7 +807,7 @@ export const ConversationDemo = ({ stewardState }) => {
         <button
           type="button"
           className="scene-wallpaper-refresh-btn"
-          onClick={handleRandomSceneChange}
+          onClick={changeScene}
           title="Switch room scene"
           aria-label="Switch room scene"
         >
@@ -843,7 +839,7 @@ export const ConversationDemo = ({ stewardState }) => {
         </div>
       )}
 
-      {/* 6. Interactive Detected Scene Layer with 🔧 Problem Indicator (Only visible after discovery) */}
+      {/* 6. Interactive Detected Scene Layer with 🔧 Problem Indicator */}
       <InteractiveScene
         sceneState={sceneState}
         imageWidth={imageSnapshot?.width || 1920}
@@ -944,13 +940,13 @@ export const ConversationDemo = ({ stewardState }) => {
               <div className="info-row">
                 <span className="info-label">Active Scene:</span>
                 <span className="info-value">
-                  {currentRoomScene.title}
+                  {currentScene.title || currentScene.displayName}
                 </span>
               </div>
               <div className="info-row">
                 <span className="info-label">Problem Object:</span>
                 <span className="info-value" style={{ color: '#fbbf24' }}>
-                  {showProblemIndicator ? `${currentRoomScene.brokenObject.label} (Discovered)` : 'Undiscovered (Searching)'}
+                  {showProblemIndicator ? `${currentScene.displayName} (Discovered)` : 'Undiscovered (Searching)'}
                 </span>
               </div>
 
@@ -960,7 +956,7 @@ export const ConversationDemo = ({ stewardState }) => {
                 className="info-visualizer-toggle-btn"
                 onClick={() => {
                   setShowInfoModal(false);
-                  startWelcomeAndSearchSequence(currentRoomScene);
+                  startWelcomeAndSearchSequence(currentScene);
                 }}
               >
                 <RotateCcw size={13} />

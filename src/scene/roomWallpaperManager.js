@@ -8,11 +8,16 @@
 
 import { OBJECT_CATEGORIES } from './sceneTypes';
 
-export const LOCAL_ROOM_SCENES = [
+export const scenes = [
   {
-    id: 'SCENE_WASHING_MACHINE',
-    title: 'Modern Living Room & Utility Suite',
+    id: 'washing_machine',
     wallpaper: '/Settings/washing_machine.jpg',
+    object: 'washing_machine',
+    displayName: 'washing machine',
+    title: 'Modern Living Room & Utility Suite',
+    serviceType: 'Bosch Express Care',
+    quoteAmount: '₹900',
+    issueDescription: 'The drum is stuck and a water leak alarm is active.',
     brokenObject: {
       id: 'det_washing_machine_01',
       label: 'Washing Machine',
@@ -85,9 +90,14 @@ export const LOCAL_ROOM_SCENES = [
     ],
   },
   {
-    id: 'SCENE_TELEVISION',
-    title: 'Entertainment Lounge',
+    id: 'television',
     wallpaper: '/Settings/television.jpg',
+    object: 'television',
+    displayName: 'television',
+    title: 'Entertainment Lounge',
+    serviceType: 'Sony Authorized Support',
+    quoteAmount: '₹1,100',
+    issueDescription: 'Display backlight circuit failure detected.',
     brokenObject: {
       id: 'det_tv_01',
       label: 'Television',
@@ -144,9 +154,14 @@ export const LOCAL_ROOM_SCENES = [
     ],
   },
   {
-    id: 'SCENE_REFRIGERATOR',
-    title: 'Kitchen Appliance Suite',
+    id: 'refrigerator',
     wallpaper: '/Settings/refrigerator.jpg',
+    object: 'refrigerator',
+    displayName: 'refrigerator',
+    title: 'Kitchen Appliance Suite',
+    serviceType: 'LG Smart Care Dispatch',
+    quoteAmount: '₹850',
+    issueDescription: 'Compressor relay overheating and temperature fluctuation.',
     brokenObject: {
       id: 'det_refrigerator_01',
       label: 'Refrigerator',
@@ -195,9 +210,14 @@ export const LOCAL_ROOM_SCENES = [
     ],
   },
   {
-    id: 'SCENE_MICROWAVE',
-    title: 'Appliance Studio Suite',
+    id: 'microwave',
     wallpaper: '/Settings/microwave.jpg',
+    object: 'microwave',
+    displayName: 'microwave',
+    title: 'Appliance Studio Suite',
+    serviceType: 'Samsung Care Direct',
+    quoteAmount: '₹650',
+    issueDescription: 'Turntable motor locked and magnetron sensor warning.',
     brokenObject: {
       id: 'det_microwave_01',
       label: 'Microwave',
@@ -247,6 +267,8 @@ export const LOCAL_ROOM_SCENES = [
   },
 ];
 
+export const LOCAL_ROOM_SCENES = scenes;
+
 export class RoomWallpaperManager {
   constructor() {
     this.currentIndex = 0;
@@ -254,26 +276,28 @@ export class RoomWallpaperManager {
   }
 
   getCurrentScene() {
-    return LOCAL_ROOM_SCENES[this.currentIndex] || LOCAL_ROOM_SCENES[0];
+    return scenes[this.currentIndex] || scenes[0];
   }
 
   /**
    * Randomly selects a different room wallpaper scene (avoiding consecutive repeat)
    */
   selectNextRandomScene() {
-    if (LOCAL_ROOM_SCENES.length <= 1) {
+    if (scenes.length <= 1) {
       return this.getCurrentScene();
     }
 
-    let nextIndex = this.currentIndex;
-    while (nextIndex === this.currentIndex) {
-      nextIndex = Math.floor(Math.random() * LOCAL_ROOM_SCENES.length);
-    }
+    const availableScenes = scenes.filter(
+      (s, idx) => idx !== this.currentIndex
+    );
 
-    this.currentIndex = nextIndex;
-    const scene = this.getCurrentScene();
-    this.notify(scene);
-    return scene;
+    const nextScene = availableScenes[
+      Math.floor(Math.random() * availableScenes.length)
+    ];
+
+    this.currentIndex = scenes.findIndex((s) => s.id === nextScene.id);
+    this.notify(nextScene);
+    return nextScene;
   }
 
   subscribe(callback) {
