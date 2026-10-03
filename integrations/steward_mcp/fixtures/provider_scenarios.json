@@ -1,0 +1,21 @@
+{
+  "provider_id": "PRV-SAM-BLR-01",
+  "provider_name": "Samsung Authorised Service - Indiranagar",
+  "scenarios": {
+    "normal": {"amount_inr": 900, "charge_scope": "VISITING_CHARGE", "booking": "CONFIRMED", "status": "SCHEDULED"},
+    "over_limit": {"amount_inr": 3800, "charge_scope": "FULL_REPAIR", "booking": "CONFIRMED", "status": "SCHEDULED"},
+    "incomplete_commitment": {"amount_inr": 900, "charge_scope": "VISITING_CHARGE", "booking": "REQUESTED", "status": "UNKNOWN"},
+    "provider_unavailable": {"quote_error": "PROVIDER_UNAVAILABLE", "booking_error": "PROVIDER_UNAVAILABLE", "status": "UNKNOWN"},
+    "slot_unavailable": {"amount_inr": 900, "charge_scope": "VISITING_CHARGE", "booking_error": "SLOT_UNAVAILABLE", "status": "UNKNOWN"},
+    "ambiguous_timeout": {"amount_inr": 900, "charge_scope": "VISITING_CHARGE", "booking_error": "OUTCOME_UNKNOWN", "status": "UNKNOWN"},
+    "malformed": {"amount_inr": null, "charge_scope": "UNKNOWN", "booking": "UNKNOWN", "status": "UNKNOWN"},
+    "no_show": {"amount_inr": 900, "charge_scope": "VISITING_CHARGE", "booking": "CONFIRMED", "status": "NO_SHOW"},
+    "part_required": {"amount_inr": 900, "charge_scope": "VISITING_CHARGE", "booking": "CONFIRMED", "status": "PART_REQUIRED"},
+    "provider_reported_complete": {"amount_inr": 900, "charge_scope": "VISITING_CHARGE", "booking": "CONFIRMED", "status": "PROVIDER_REPORTED_COMPLETE"},
+    "technician_en_route": {"amount_inr": 900, "charge_scope": "VISITING_CHARGE", "booking": "CONFIRMED", "status": "TECHNICIAN_EN_ROUTE"},
+    "service_attempted": {"amount_inr": 900, "charge_scope": "VISITING_CHARGE", "booking": "CONFIRMED", "status": "SERVICE_ATTEMPTED"},
+    "cancelled": {"amount_inr": 900, "charge_scope": "VISITING_CHARGE", "booking": "CONFIRMED", "status": "CANCELLED"},
+    "unknown": {"amount_inr": 900, "charge_scope": "VISITING_CHARGE", "booking": "CONFIRMED", "status": "UNKNOWN"},
+    "appointment_provider_unavailable": {"amount_inr": 900, "charge_scope": "VISITING_CHARGE", "booking_error": "PROVIDER_UNAVAILABLE", "status": "UNKNOWN"}
+  }
+}
