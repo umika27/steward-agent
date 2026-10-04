@@ -24,6 +24,7 @@ EXPECTED_TOOLS = {"get_machine_memory", "update_machine_memory", "request_servic
 class HTTPServerFixture(unittest.TestCase):
     token = None
     scenario = "normal"
+    deployment_env = {}
 
     @classmethod
     def setUpClass(cls):
@@ -34,7 +35,9 @@ class HTTPServerFixture(unittest.TestCase):
             reservation.bind(("127.0.0.1", 0))
             cls.port = reservation.getsockname()[1]
         cls.url = f"http://127.0.0.1:{cls.port}/mcp"
-        env = {key: value for key, value in os.environ.items() if not key.startswith("STEWARD_MCP_")}
+        env = {key: value for key, value in os.environ.items()
+               if not key.startswith(("STEWARD_MCP_", "MCP_")) and key not in ("PORT", "RENDER_EXTERNAL_HOSTNAME")}
+        env.update(cls.deployment_env)
         env["PYTHONDONTWRITEBYTECODE"] = "1"
         if cls.token:
             env["STEWARD_MCP_BEARER_TOKEN"] = cls.token
@@ -192,3 +195,30 @@ class TestMCPFailureTransport(HTTPServerFixture):
                 self.assertEqual(result.structuredContent["provider_booking_status"], "UNKNOWN")
                 self.assertNotIn("appointment_id", result.structuredContent)
         asyncio.run(self.with_session(exercise))
+
+class TestRenderProxyTransport(HTTPServerFixture):
+    token = 'test-only-render-token-012345678901234567890'
+    deployment_env = {'MCP_HOST': '0.0.0.0', 'MCP_AUTH_TOKEN': token,
+                      'RENDER_EXTERNAL_HOSTNAME': 'steward-mcp.onrender.com'}
+
+    def test_authenticated_discovery_with_public_proxy_headers(self):
+        headers = {'Authorization': 'Bearer ' + self.token, 'Host': 'steward-mcp.onrender.com',
+                   'Origin': 'https://steward-mcp.onrender.com',
+                   'Accept': 'application/json, text/event-stream', 'MCP-Protocol-Version': '2025-06-18'}
+        response = httpx.post(self.url, json={'jsonrpc': '2.0', 'id': 1, 'method': 'tools/list'},
+                              headers=headers, trust_env=False)
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual({t['name'] for t in response.json()['result']['tools']}, EXPECTED_TOOLS)
+        result = httpx.post(self.url, json={'jsonrpc': '2.0', 'id': 2, 'method': 'tools/call',
+            'params': {'name': 'get_machine_memory', 'arguments': {'machine_id': 'WM-001'}}},
+            headers=headers, trust_env=False)
+        self.assertEqual(result.status_code, 200)
+        self.assertTrue(result.json()['result']['structuredContent']['success'])
+
+    def test_public_binding_still_rejects_missing_auth_and_untrusted_origin(self):
+        response = httpx.post(self.url, json={}, headers={'Host': 'steward-mcp.onrender.com'}, trust_env=False)
+        self.assertEqual(response.status_code, 401)
+        response = httpx.post(self.url, json={}, headers={'Host': 'steward-mcp.onrender.com',
+            'Authorization': 'Bearer ' + self.token, 'Origin': 'https://untrusted.example',
+            'Accept': 'application/json, text/event-stream'}, trust_env=False)
+        self.assertEqual(response.status_code, 403)

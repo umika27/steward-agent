@@ -10,6 +10,9 @@ text-to-speech and Delhivery serviceability / shipment creation / tracking are d
 outside Phase 1. Pine Labs / Plural payments remain a native AgenticOrg connector.
 No vendor credentials are assumed or required for this simulator.
 
+For independent public HTTPS hosting, environment aliases, persistent storage and
+AgenticOrg registration, see [DEPLOYMENT.md](DEPLOYMENT.md). No deployment has been performed.
+
 ## Local setup and launch
 
 Run from the repository root with Python 3.10+ and an available IANA timezone database:

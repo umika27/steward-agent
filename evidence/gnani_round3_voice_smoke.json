@@ -1,0 +1,94 @@
+{
+  "provider": "GNANI",
+  "date_local": "2026-10-04",
+  "timezone": "Asia/Kolkata",
+  "architecture": "Separate GNANI Voice Rail MCP; Pine-only reasoning; existing Steward five-tool connector unchanged.",
+  "paid_requests_total": 5,
+  "stt_requests": 2,
+  "tts_requests": 3,
+  "input": {
+    "path": "/tmp/steward-gnani-smoke-20261004/speech.wav",
+    "origin": "Caller-supplied audio; current run uses macOS synthesized speech, not a microphone recording.",
+    "metadata": {
+      "filename": "speech.wav",
+      "content_type": "audio/wav",
+      "audio_bytes": 64488,
+      "duration_seconds": 2.013,
+      "sample_rate": 16000,
+      "num_channels": 1,
+      "sample_width": 2
+    },
+    "sha256": "301f463bb79264889f44d242c0aa340abffb8f2ccff2d008c693b77de3729ea2"
+  },
+  "stt": {
+    "status": "PASS",
+    "qualification": "Real provider transcription succeeded; corrected parser validated offline against captured live response, not a further paid invocation.",
+    "transcript": "my washing machine is not draining",
+    "request_id": "01a10478-6479-7a27-889b-6ceecc8265ba",
+    "provider_timestamp": null,
+    "provider_timestamp_status": "not_supplied",
+    "language": "en-IN",
+    "http_status": 200,
+    "latency_ms": 392.26,
+    "timestamp_utc": "2026-10-04T01:12:41.164560+00:00",
+    "timestamp_local": "2026-10-04T06:42:41.164560+05:30"
+  },
+  "tts": {
+    "status": "FAIL",
+    "language": "en-IN",
+    "model": "timbre-v2.5",
+    "voice": "Kaveri",
+    "text": "Your washing machine repair case is still active.",
+    "http_status": 429,
+    "latency_ms": 281.16,
+    "timestamp_utc": "2026-10-04T01:17:40.398363+00:00",
+    "timestamp_local": "2026-10-04T06:47:40.398363+05:30",
+    "content_type": "application/json",
+    "audio_bytes": 0,
+    "output_audio_path": null,
+    "provider_error": {
+      "detail": {
+        "error_code": "RATE_LIMITED",
+        "message": "Rate limit exceeded",
+        "status_code": 429
+      }
+    },
+    "earlier_http_200": {
+      "http_status": 200,
+      "content_type": "audio/wav",
+      "audio_bytes": 238124,
+      "latency_ms": 1187.36,
+      "validation": "FAIL in original strict PCM validator; binary not retained by that diagnostic; no playback/format PASS claimed."
+    }
+  },
+  "live_attempts": [
+    {
+      "direction": "STT",
+      "http_status": 200,
+      "adapter_status": "FAIL: omitted provider timestamp"
+    },
+    {
+      "direction": "TTS",
+      "http_status": 429,
+      "adapter_status": "FAIL"
+    },
+    {
+      "direction": "STT",
+      "http_status": 200,
+      "adapter_status": "Original parser FAIL, captured provider transcript PASS; later offline parser validation PASS"
+    },
+    {
+      "direction": "TTS",
+      "http_status": 200,
+      "adapter_status": "FAIL: PCM validation; audio not retained"
+    },
+    {
+      "direction": "TTS",
+      "http_status": 429,
+      "adapter_status": "FAIL: RATE_LIMITED"
+    }
+  ],
+  "no_further_live_calls": true,
+  "pine_invocation": "NOT RUN",
+  "frontend_visible_change": "NONE"
+}

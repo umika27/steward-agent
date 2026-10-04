@@ -1,0 +1,57 @@
+/**
+ * Steward Case UI Data Model & Constants (Phase 1 Foundation)
+ *
+ * Enforces standardized data structures for:
+ * - Machine identity & persistent memory
+ * - Active case status & lifecycle events
+ * - Spending authority bounds & quotes
+ * - Provider commitments & household verification gates
+ */
+
+export const CASE_STATUSES = {
+  INGEST: 'INGEST',
+  ASSESS: 'ASSESS',
+  DECIDE: 'DECIDE',
+  ACT: 'ACT',
+  VERIFY: 'VERIFY',
+  MEMORY_UPDATE: 'MEMORY_UPDATE',
+  CLOSED: 'CLOSED',
+  RESTRAINED: 'RESTRAINED',
+  RECOVERING: 'RECOVERING',
+};
+
+export const EVENT_TYPES = {
+  PROBLEM_DETECTED: 'PROBLEM_DETECTED',
+  MEMORY_LOADED: 'MEMORY_LOADED',
+  ASSESSMENT: 'ASSESSMENT',
+  QUOTE_RECEIVED: 'QUOTE_RECEIVED',
+  DECISION: 'DECISION',
+  APPOINTMENT_REQUESTED: 'APPOINTMENT_REQUESTED',
+  APPOINTMENT_CONFIRMED: 'APPOINTMENT_CONFIRMED',
+  SERVICE_ATTEMPTED: 'SERVICE_ATTEMPTED',
+  PROVIDER_CLAIM: 'PROVIDER_CLAIM',
+  HOUSEHOLD_VERIFICATION: 'HOUSEHOLD_VERIFICATION',
+  RECOVERY: 'RECOVERY',
+  MEMORY_UPDATED: 'MEMORY_UPDATED',
+  CASE_CLOSED: 'CASE_CLOSED',
+};
+
+export const VERIFICATION_STATUS = {
+  PENDING: 'PENDING',
+  VERIFIED: 'VERIFIED',
+  FAILED: 'FAILED',
+};
+
+export const COMMITMENT_STATUS = {
+  REQUESTED: 'REQUESTED',
+  CONFIRMED: 'CONFIRMED',
+  COMPLETED: 'COMPLETED',
+  NO_SHOW: 'NO_SHOW',
+  CANCELLED: 'CANCELLED',
+};
+
+export const SCENARIO_KEYS = {
+  ACT: 'ACT',
+  RESTRAIN: 'RESTRAIN',
+  RECOVER: 'RECOVER',
+};

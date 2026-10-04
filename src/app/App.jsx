@@ -43,6 +43,7 @@ export function App() {
       <main className="app-main">
         <ConversationDemo stewardState={stewardState} />
       </main>
+      <MockControls currentState={stewardState} />
     </div>
   );
 }

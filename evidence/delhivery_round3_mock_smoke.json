@@ -1,0 +1,1176 @@
+{
+  "provider": "DELHIVERY_MOCK",
+  "provider_rail": "DELHIVERY",
+  "execution_environment": "MOCK",
+  "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+  "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+  "timestamp": "2026-10-04T02:21:24.985424+00:00",
+  "live_provider_calls": 0,
+  "validation_scope": "In-process adapter calls exact mock HTTP routes; remote transport separately tested",
+  "success": true,
+  "call_count": 18,
+  "receipts": [
+    {
+      "tool": "check_delivery_serviceability",
+      "scenario": "NORMAL_SERVICEABLE",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": true,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "delhivery_compatible_data": [
+          {
+            "remark": ""
+          }
+        ],
+        "logistics": {
+          "serviceable": true
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.945540+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "check_delivery_serviceability",
+          "http_method": "GET",
+          "documented_endpoint_path": "/c/api/pin-codes/json/",
+          "scenario": "NORMAL_SERVICEABLE",
+          "request_metadata": {
+            "single_pincode": true
+          },
+          "http_status": 200,
+          "success": true,
+          "result": "LOGISTICS_FACTS",
+          "latency_ms": 3.22
+        }
+      }
+    },
+    {
+      "tool": "create_part_shipment",
+      "scenario": "NORMAL_SERVICEABLE",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": true,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "logistics": {
+          "order_id": "MOCK-PUMP-001",
+          "waybill": "3209077687452",
+          "status": "SHIPMENT_CREATED",
+          "created_at": "2026-10-04T02:21:24.950488+00:00",
+          "idempotent_replay": false
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.949368+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "create_part_shipment",
+          "http_method": "POST",
+          "documented_endpoint_path": "/api/cmu/create.json",
+          "scenario": "NORMAL_SERVICEABLE",
+          "request_metadata": {
+            "shipment_count": 1,
+            "payment_mode": "Prepaid"
+          },
+          "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+          "http_status": 200,
+          "success": true,
+          "result": "LOGISTICS_FACTS",
+          "latency_ms": 2.38,
+          "waybill": "3209077687452"
+        }
+      }
+    },
+    {
+      "tool": "create_part_shipment",
+      "scenario": "NORMAL_SERVICEABLE",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": true,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "logistics": {
+          "order_id": "MOCK-PUMP-001",
+          "waybill": "3209077687452",
+          "status": "SHIPMENT_CREATED",
+          "created_at": "2026-10-04T02:21:24.950488+00:00",
+          "idempotent_replay": true
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.952240+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "create_part_shipment",
+          "http_method": "POST",
+          "documented_endpoint_path": "/api/cmu/create.json",
+          "scenario": "NORMAL_SERVICEABLE",
+          "request_metadata": {
+            "shipment_count": 1,
+            "payment_mode": "Prepaid"
+          },
+          "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+          "http_status": 200,
+          "success": true,
+          "result": "LOGISTICS_FACTS",
+          "latency_ms": 1.66,
+          "waybill": "3209077687452"
+        }
+      }
+    },
+    {
+      "tool": "track_part_shipment",
+      "scenario": "IN_TRANSIT",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": true,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "logistics": {
+          "waybill": "3209077687452",
+          "order_id": "MOCK-PUMP-001",
+          "status": "IN_TRANSIT",
+          "history": [
+            {
+              "scenario": "SHIPMENT_CREATED",
+              "observed_at": "2026-10-04T02:21:24.950662+00:00"
+            },
+            {
+              "scenario": "IN_TRANSIT",
+              "observed_at": "2026-10-04T02:21:24.957850+00:00"
+            }
+          ]
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.954591+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "track_part_shipment",
+          "http_method": "GET",
+          "documented_endpoint_path": "/api/v1/packages/json/",
+          "scenario": "IN_TRANSIT",
+          "request_metadata": {},
+          "waybill": "3209077687452",
+          "http_status": 200,
+          "success": true,
+          "result": "LOGISTICS_FACTS",
+          "latency_ms": 5.23
+        }
+      }
+    },
+    {
+      "tool": "track_part_shipment",
+      "scenario": "DELIVERED",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": true,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "logistics": {
+          "waybill": "3209077687452",
+          "order_id": "MOCK-PUMP-001",
+          "status": "DELIVERED",
+          "history": [
+            {
+              "scenario": "SHIPMENT_CREATED",
+              "observed_at": "2026-10-04T02:21:24.950662+00:00"
+            },
+            {
+              "scenario": "IN_TRANSIT",
+              "observed_at": "2026-10-04T02:21:24.957850+00:00"
+            },
+            {
+              "scenario": "DELIVERED",
+              "observed_at": "2026-10-04T02:21:24.961446+00:00"
+            }
+          ]
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.960518+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "track_part_shipment",
+          "http_method": "GET",
+          "documented_endpoint_path": "/api/v1/packages/json/",
+          "scenario": "DELIVERED",
+          "request_metadata": {},
+          "waybill": "3209077687452",
+          "http_status": 200,
+          "success": true,
+          "result": "LOGISTICS_FACTS",
+          "latency_ms": 1.98
+        }
+      }
+    },
+    {
+      "tool": "track_part_shipment",
+      "scenario": "DELIVERY_EXCEPTION",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": true,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "logistics": {
+          "waybill": "3209077687452",
+          "order_id": "MOCK-PUMP-001",
+          "status": "DELIVERY_EXCEPTION",
+          "history": [
+            {
+              "scenario": "SHIPMENT_CREATED",
+              "observed_at": "2026-10-04T02:21:24.950662+00:00"
+            },
+            {
+              "scenario": "IN_TRANSIT",
+              "observed_at": "2026-10-04T02:21:24.957850+00:00"
+            },
+            {
+              "scenario": "DELIVERED",
+              "observed_at": "2026-10-04T02:21:24.961446+00:00"
+            },
+            {
+              "scenario": "DELIVERY_EXCEPTION",
+              "observed_at": "2026-10-04T02:21:24.963720+00:00"
+            }
+          ]
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.962996+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "track_part_shipment",
+          "http_method": "GET",
+          "documented_endpoint_path": "/api/v1/packages/json/",
+          "scenario": "DELIVERY_EXCEPTION",
+          "request_metadata": {},
+          "waybill": "3209077687452",
+          "http_status": 200,
+          "success": true,
+          "result": "LOGISTICS_FACTS",
+          "latency_ms": 1.79
+        }
+      }
+    },
+    {
+      "tool": "check_delivery_serviceability",
+      "scenario": "EMBARGO",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": true,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "delhivery_compatible_data": [
+          {
+            "remark": "Embargo"
+          }
+        ],
+        "logistics": {
+          "serviceable": false
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.965655+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "check_delivery_serviceability",
+          "http_method": "GET",
+          "documented_endpoint_path": "/c/api/pin-codes/json/",
+          "scenario": "EMBARGO",
+          "request_metadata": {
+            "single_pincode": true
+          },
+          "http_status": 200,
+          "success": true,
+          "result": "LOGISTICS_FACTS",
+          "latency_ms": 1.1
+        }
+      }
+    },
+    {
+      "tool": "create_part_shipment",
+      "scenario": "EMBARGO",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": false,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "error": {
+          "code": "PINCODE_NOT_SERVICEABLE",
+          "retryable": false
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.967305+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "create_part_shipment",
+          "http_method": "POST",
+          "documented_endpoint_path": "/api/cmu/create.json",
+          "scenario": "EMBARGO",
+          "request_metadata": {
+            "shipment_count": 1,
+            "payment_mode": "Prepaid"
+          },
+          "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+          "http_status": 422,
+          "success": false,
+          "result": "PINCODE_NOT_SERVICEABLE",
+          "latency_ms": 1.18
+        }
+      }
+    },
+    {
+      "tool": "check_delivery_serviceability",
+      "scenario": "NSZ",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": true,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "delhivery_compatible_data": [],
+        "logistics": {
+          "serviceable": false
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.968995+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "check_delivery_serviceability",
+          "http_method": "GET",
+          "documented_endpoint_path": "/c/api/pin-codes/json/",
+          "scenario": "NSZ",
+          "request_metadata": {
+            "single_pincode": true
+          },
+          "http_status": 200,
+          "success": true,
+          "result": "LOGISTICS_FACTS",
+          "latency_ms": 0.94
+        }
+      }
+    },
+    {
+      "tool": "create_part_shipment",
+      "scenario": "NSZ",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": false,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "error": {
+          "code": "PINCODE_NOT_SERVICEABLE",
+          "retryable": false
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.970460+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "create_part_shipment",
+          "http_method": "POST",
+          "documented_endpoint_path": "/api/cmu/create.json",
+          "scenario": "NSZ",
+          "request_metadata": {
+            "shipment_count": 1,
+            "payment_mode": "Prepaid"
+          },
+          "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+          "http_status": 422,
+          "success": false,
+          "result": "PINCODE_NOT_SERVICEABLE",
+          "latency_ms": 0.99
+        }
+      }
+    },
+    {
+      "tool": "create_part_shipment",
+      "scenario": "NO_RIDER_OR_CAPACITY",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": false,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "error": {
+          "code": "NO_RIDER_OR_CAPACITY",
+          "retryable": true
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.971998+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "create_part_shipment",
+          "http_method": "POST",
+          "documented_endpoint_path": "/api/cmu/create.json",
+          "scenario": "NO_RIDER_OR_CAPACITY",
+          "request_metadata": {
+            "shipment_count": 1,
+            "payment_mode": "Prepaid"
+          },
+          "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+          "http_status": 503,
+          "success": false,
+          "result": "NO_RIDER_OR_CAPACITY",
+          "latency_ms": 1.41
+        }
+      }
+    },
+    {
+      "tool": "check_delivery_serviceability",
+      "scenario": "TIMEOUT",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": false,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "error": {
+          "code": "TIMEOUT",
+          "retryable": true
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.973929+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "check_delivery_serviceability",
+          "http_method": "GET",
+          "documented_endpoint_path": "/c/api/pin-codes/json/",
+          "scenario": "TIMEOUT",
+          "request_metadata": {
+            "single_pincode": true
+          },
+          "http_status": 504,
+          "success": false,
+          "result": "TIMEOUT",
+          "latency_ms": 1.1
+        }
+      }
+    },
+    {
+      "tool": "create_part_shipment",
+      "scenario": "TIMEOUT",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": false,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "error": {
+          "code": "TIMEOUT",
+          "retryable": true
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.975557+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "create_part_shipment",
+          "http_method": "POST",
+          "documented_endpoint_path": "/api/cmu/create.json",
+          "scenario": "TIMEOUT",
+          "request_metadata": {
+            "shipment_count": 1,
+            "payment_mode": "Prepaid"
+          },
+          "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+          "http_status": 504,
+          "success": false,
+          "result": "TIMEOUT",
+          "latency_ms": 1.08
+        }
+      }
+    },
+    {
+      "tool": "track_part_shipment",
+      "scenario": "TIMEOUT",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": false,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "error": {
+          "code": "TIMEOUT",
+          "retryable": true
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.977126+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "track_part_shipment",
+          "http_method": "GET",
+          "documented_endpoint_path": "/api/v1/packages/json/",
+          "scenario": "TIMEOUT",
+          "request_metadata": {},
+          "waybill": "3209077687452",
+          "http_status": 504,
+          "success": false,
+          "result": "TIMEOUT",
+          "latency_ms": 0.95
+        }
+      }
+    },
+    {
+      "tool": "check_delivery_serviceability",
+      "scenario": "MALFORMED_RESPONSE",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": false,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "error": {
+          "code": "MALFORMED_RESPONSE",
+          "retryable": false
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.978617+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "check_delivery_serviceability",
+          "http_method": "GET",
+          "documented_endpoint_path": "/c/api/pin-codes/json/",
+          "scenario": "MALFORMED_RESPONSE",
+          "request_metadata": {
+            "single_pincode": true
+          },
+          "http_status": 200,
+          "success": false,
+          "result": "MALFORMED_RESPONSE",
+          "latency_ms": 0.89
+        }
+      }
+    },
+    {
+      "tool": "create_part_shipment",
+      "scenario": "MALFORMED_RESPONSE",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": false,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "error": {
+          "code": "MALFORMED_RESPONSE",
+          "retryable": false
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.980037+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "create_part_shipment",
+          "http_method": "POST",
+          "documented_endpoint_path": "/api/cmu/create.json",
+          "scenario": "MALFORMED_RESPONSE",
+          "request_metadata": {
+            "shipment_count": 1,
+            "payment_mode": "Prepaid"
+          },
+          "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+          "http_status": 200,
+          "success": false,
+          "result": "MALFORMED_RESPONSE",
+          "latency_ms": 1.0
+        }
+      }
+    },
+    {
+      "tool": "track_part_shipment",
+      "scenario": "MALFORMED_RESPONSE",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": false,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "error": {
+          "code": "MALFORMED_RESPONSE",
+          "retryable": false
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.981542+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "track_part_shipment",
+          "http_method": "GET",
+          "documented_endpoint_path": "/api/v1/packages/json/",
+          "scenario": "MALFORMED_RESPONSE",
+          "request_metadata": {},
+          "waybill": "3209077687452",
+          "http_status": 200,
+          "success": false,
+          "result": "MALFORMED_RESPONSE",
+          "latency_ms": 1.16
+        }
+      }
+    },
+    {
+      "tool": "create_part_shipment",
+      "scenario": "SHIPMENT_CREATED",
+      "assertion_pass": true,
+      "actual_result": {
+        "success": true,
+        "simulation": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied"
+        },
+        "logistics": {
+          "order_id": "MOCK-PUMP-002",
+          "waybill": "8336919753634",
+          "status": "SHIPMENT_CREATED",
+          "created_at": "2026-10-04T02:21:24.983788+00:00",
+          "idempotent_replay": false
+        },
+        "evidence": {
+          "provider": "DELHIVERY_MOCK",
+          "provider_rail": "DELHIVERY",
+          "execution_environment": "MOCK",
+          "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+          "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+          "timestamp": "2026-10-04T02:21:24.983241+00:00",
+          "stage": "MCP_ADAPTER",
+          "operation": "create_part_shipment",
+          "http_method": "POST",
+          "documented_endpoint_path": "/api/cmu/create.json",
+          "scenario": "SHIPMENT_CREATED",
+          "request_metadata": {
+            "shipment_count": 1,
+            "payment_mode": "Prepaid"
+          },
+          "order_id_sha256": "ffeaffe5b846ad74f9aebf2c512816f43a65f958fcd57263cf53fb5f3ab9f3a2",
+          "http_status": 200,
+          "success": true,
+          "result": "LOGISTICS_FACTS",
+          "latency_ms": 1.65,
+          "waybill": "8336919753634"
+        }
+      }
+    }
+  ],
+  "http_evidence": [
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.947116+00:00",
+      "operation": "serviceability",
+      "http_method": "GET",
+      "documented_endpoint_path": "/c/api/pin-codes/json/",
+      "request_metadata": {
+        "single_pincode": true
+      },
+      "scenario": "NORMAL_SERVICEABLE",
+      "success": true,
+      "http_status": 200,
+      "latency_ms": 0.12,
+      "result": "SERVICEABILITY_FACTS"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.950029+00:00",
+      "operation": "shipment_creation",
+      "http_method": "POST",
+      "documented_endpoint_path": "/api/cmu/create.json",
+      "request_metadata": {
+        "shipment_count": 1,
+        "payment_mode": "Prepaid"
+      },
+      "scenario": "NORMAL_SERVICEABLE",
+      "success": true,
+      "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+      "waybill": "3209077687452",
+      "http_status": 200,
+      "latency_ms": 1.0,
+      "result": "LOGISTICS_FACTS"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.952567+00:00",
+      "operation": "shipment_creation",
+      "http_method": "POST",
+      "documented_endpoint_path": "/api/cmu/create.json",
+      "request_metadata": {
+        "shipment_count": 1,
+        "payment_mode": "Prepaid"
+      },
+      "scenario": "NORMAL_SERVICEABLE",
+      "success": true,
+      "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+      "waybill": "3209077687452",
+      "http_status": 200,
+      "latency_ms": 0.54,
+      "result": "LOGISTICS_FACTS"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.956921+00:00",
+      "operation": "tracking",
+      "http_method": "GET",
+      "documented_endpoint_path": "/api/v1/packages/json/",
+      "request_metadata": {},
+      "scenario": "IN_TRANSIT",
+      "success": true,
+      "waybill": "3209077687452",
+      "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+      "http_status": 200,
+      "latency_ms": 1.68,
+      "result": "LOGISTICS_FACTS"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.960898+00:00",
+      "operation": "tracking",
+      "http_method": "GET",
+      "documented_endpoint_path": "/api/v1/packages/json/",
+      "request_metadata": {},
+      "scenario": "DELIVERED",
+      "success": true,
+      "waybill": "3209077687452",
+      "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+      "http_status": 200,
+      "latency_ms": 0.94,
+      "result": "LOGISTICS_FACTS"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.963280+00:00",
+      "operation": "tracking",
+      "http_method": "GET",
+      "documented_endpoint_path": "/api/v1/packages/json/",
+      "request_metadata": {},
+      "scenario": "DELIVERY_EXCEPTION",
+      "success": true,
+      "waybill": "3209077687452",
+      "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+      "http_status": 200,
+      "latency_ms": 0.82,
+      "result": "LOGISTICS_FACTS"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.965911+00:00",
+      "operation": "serviceability",
+      "http_method": "GET",
+      "documented_endpoint_path": "/c/api/pin-codes/json/",
+      "request_metadata": {
+        "single_pincode": true
+      },
+      "scenario": "EMBARGO",
+      "success": true,
+      "http_status": 200,
+      "latency_ms": 0.05,
+      "result": "SERVICEABILITY_FACTS"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.967698+00:00",
+      "operation": "shipment_creation",
+      "http_method": "POST",
+      "documented_endpoint_path": "/api/cmu/create.json",
+      "request_metadata": {
+        "shipment_count": 1,
+        "payment_mode": "Prepaid"
+      },
+      "scenario": "EMBARGO",
+      "success": false,
+      "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+      "http_status": 422,
+      "latency_ms": 0.14,
+      "result": "PINCODE_NOT_SERVICEABLE"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.969280+00:00",
+      "operation": "serviceability",
+      "http_method": "GET",
+      "documented_endpoint_path": "/c/api/pin-codes/json/",
+      "request_metadata": {
+        "single_pincode": true
+      },
+      "scenario": "NSZ",
+      "success": true,
+      "http_status": 200,
+      "latency_ms": 0.05,
+      "result": "SERVICEABILITY_FACTS"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.970742+00:00",
+      "operation": "shipment_creation",
+      "http_method": "POST",
+      "documented_endpoint_path": "/api/cmu/create.json",
+      "request_metadata": {
+        "shipment_count": 1,
+        "payment_mode": "Prepaid"
+      },
+      "scenario": "NSZ",
+      "success": false,
+      "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+      "http_status": 422,
+      "latency_ms": 0.11,
+      "result": "PINCODE_NOT_SERVICEABLE"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.972530+00:00",
+      "operation": "shipment_creation",
+      "http_method": "POST",
+      "documented_endpoint_path": "/api/cmu/create.json",
+      "request_metadata": {
+        "shipment_count": 1,
+        "payment_mode": "Prepaid"
+      },
+      "scenario": "NO_RIDER_OR_CAPACITY",
+      "success": false,
+      "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+      "http_status": 503,
+      "latency_ms": 0.13,
+      "result": "NO_RIDER_OR_CAPACITY"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.974239+00:00",
+      "operation": "serviceability",
+      "http_method": "GET",
+      "documented_endpoint_path": "/c/api/pin-codes/json/",
+      "request_metadata": {
+        "single_pincode": true
+      },
+      "scenario": "TIMEOUT",
+      "success": false,
+      "http_status": 504,
+      "latency_ms": 0.06,
+      "result": "TIMEOUT"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.975858+00:00",
+      "operation": "shipment_creation",
+      "http_method": "POST",
+      "documented_endpoint_path": "/api/cmu/create.json",
+      "request_metadata": {
+        "shipment_count": 1,
+        "payment_mode": "Prepaid"
+      },
+      "scenario": "TIMEOUT",
+      "success": false,
+      "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+      "http_status": 504,
+      "latency_ms": 0.12,
+      "result": "TIMEOUT"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.977390+00:00",
+      "operation": "tracking",
+      "http_method": "GET",
+      "documented_endpoint_path": "/api/v1/packages/json/",
+      "request_metadata": {},
+      "scenario": "TIMEOUT",
+      "success": false,
+      "waybill": "3209077687452",
+      "http_status": 504,
+      "latency_ms": 0.05,
+      "result": "TIMEOUT"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.978860+00:00",
+      "operation": "serviceability",
+      "http_method": "GET",
+      "documented_endpoint_path": "/c/api/pin-codes/json/",
+      "request_metadata": {
+        "single_pincode": true
+      },
+      "scenario": "MALFORMED_RESPONSE",
+      "success": false,
+      "http_status": 200,
+      "latency_ms": 0.04,
+      "result": "MALFORMED_RESPONSE"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.980317+00:00",
+      "operation": "shipment_creation",
+      "http_method": "POST",
+      "documented_endpoint_path": "/api/cmu/create.json",
+      "request_metadata": {
+        "shipment_count": 1,
+        "payment_mode": "Prepaid"
+      },
+      "scenario": "MALFORMED_RESPONSE",
+      "success": false,
+      "order_id_sha256": "df97e1766405c52706bcacfad466f83ac6cff0e7a53197616dd86d9908d8449c",
+      "http_status": 200,
+      "latency_ms": 0.1,
+      "result": "MALFORMED_RESPONSE"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.981797+00:00",
+      "operation": "tracking",
+      "http_method": "GET",
+      "documented_endpoint_path": "/api/v1/packages/json/",
+      "request_metadata": {},
+      "scenario": "MALFORMED_RESPONSE",
+      "success": false,
+      "waybill": "3209077687452",
+      "http_status": 200,
+      "latency_ms": 0.04,
+      "result": "MALFORMED_RESPONSE"
+    },
+    {
+      "provider": "DELHIVERY_MOCK",
+      "provider_rail": "DELHIVERY",
+      "execution_environment": "MOCK",
+      "contract_basis": "OFFICIAL DELHIVERY B2C DOCUMENTATION",
+      "response_schema": "SIMULATION \u2014 authoritative provider response schemas not supplied",
+      "timestamp": "2026-10-04T02:21:24.983531+00:00",
+      "operation": "shipment_creation",
+      "http_method": "POST",
+      "documented_endpoint_path": "/api/cmu/create.json",
+      "request_metadata": {
+        "shipment_count": 1,
+        "payment_mode": "Prepaid"
+      },
+      "scenario": "SHIPMENT_CREATED",
+      "success": true,
+      "order_id_sha256": "ffeaffe5b846ad74f9aebf2c512816f43a65f958fcd57263cf53fb5f3ab9f3a2",
+      "waybill": "8336919753634",
+      "http_status": 200,
+      "latency_ms": 0.77,
+      "result": "LOGISTICS_FACTS"
+    }
+  ],
+  "regression_verification": {
+    "python_tests": {
+      "Delhivery": 81,
+      "Gnani": 58,
+      "Steward MCP": 48,
+      "Backend": 95,
+      "total": 282
+    },
+    "python_result": "PASS",
+    "frontend_tests": 10,
+    "frontend_result": "PASS",
+    "build_modules": 1570,
+    "build_result": "PASS",
+    "render_cached_official_schema": "PASS",
+    "prior_render_services_unchanged": true,
+    "protected_source_paths_unchanged": true,
+    "protected_source_files_checked": 189,
+    "git_status": {
+      "modified_tracked": 35,
+      "untracked_files": 152,
+      "staged": 0
+    }
+  }
+}

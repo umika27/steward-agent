@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "test": "node --test --test-concurrency=1 tests/frontend.test.mjs tests/canonical.test.mjs",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"

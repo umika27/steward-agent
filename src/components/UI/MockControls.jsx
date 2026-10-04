@@ -8,6 +8,8 @@ import {
 import { EMOTION_DEFINITIONS } from '../../emotions/emotionDefinitions';
 import { resolveContextualEmotion } from '../../emotions/contextResolver';
 import { MOCK_CONVERSATION_TURNS } from '../../demo/mockConversation';
+import { mockCaseStore } from '../../case/mockCaseStore';
+import { SCENARIO_KEYS } from '../../case/caseTypes';
 import {
   Sliders,
   ChevronDown,
@@ -21,6 +23,7 @@ import {
   Play,
   SkipForward,
   Sparkles,
+  Layers,
 } from 'lucide-react';
 import './MockControls.css';
 
@@ -33,9 +36,10 @@ import './MockControls.css';
  * 3. DEMO MODE CONTROLS (8 Story Turns)
  * 4. SPEECH REVEAL TESTING
  * 5. STATUS PRESETS
+ * 6. CASE SCENARIOS (ACT, RESTRAIN, RECOVER)
  */
 export const MockControls = ({ currentState }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [customText, setCustomText] = useState(currentState?.text || '');
   const [demoTurnIndex, setDemoTurnIndex] = useState(0);
 
@@ -346,6 +350,45 @@ export const MockControls = ({ currentState }) => {
               >
                 <RotateCcw size={12} />
                 <span>Restart Demo</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Section 2.5: CANONICAL CASE SCENARIOS */}
+          <div className="mock-section-divider">
+            <div className="mock-input-label">
+              <span>Case Scenarios:</span>
+              <span style={{ color: 'var(--accent-cyan)' }}>
+                {mockCaseStore.getActiveScenarioKey()}
+              </span>
+            </div>
+            <div className="mock-speech-btn-group">
+              <button
+                type="button"
+                className="mock-speech-btn"
+                onClick={() => mockCaseStore.loadScenario(SCENARIO_KEYS.ACT)}
+                title="Load Scenario A: ACT (Autonomous Resolution)"
+              >
+                <Layers size={11} />
+                <span>ACT</span>
+              </button>
+              <button
+                type="button"
+                className="mock-speech-btn"
+                onClick={() => mockCaseStore.loadScenario(SCENARIO_KEYS.RESTRAIN)}
+                title="Load Scenario B: RESTRAIN (Human Approval Required)"
+              >
+                <Layers size={11} />
+                <span>RESTRAIN</span>
+              </button>
+              <button
+                type="button"
+                className="mock-speech-btn"
+                onClick={() => mockCaseStore.loadScenario(SCENARIO_KEYS.RECOVER)}
+                title="Load Scenario C: RECOVER (Household Verification Failed)"
+              >
+                <Layers size={11} />
+                <span>RECOVER</span>
               </button>
             </div>
           </div>

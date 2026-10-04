@@ -1,0 +1,46 @@
+/**
+ * Reasoning Types & Constants Module
+ * Phase 10 — AI Reasoning & Natural-Language Task Planning
+ *
+ * Defines reasoning lifecycle states, allowed action vocabulary,
+ * condition vocabulary, and validation constraints.
+ */
+
+export const REASONING_STATUS = {
+  IDLE: 'IDLE',
+  ANALYZING: 'ANALYZING',
+  PLAN_READY: 'PLAN_READY',
+  NEEDS_CLARIFICATION: 'NEEDS_CLARIFICATION',
+  INVALID_PLAN: 'INVALID_PLAN',
+  NO_TARGET: 'NO_TARGET',
+  ERROR: 'ERROR',
+};
+
+export const REASONING_EVENTS = {
+  REASONING_STARTED: 'REASONING_STARTED',
+  REASONING_COMPLETED: 'REASONING_COMPLETED',
+  REASONING_CLARIFICATION_NEEDED: 'REASONING_CLARIFICATION_NEEDED',
+  REASONING_FAILED: 'REASONING_FAILED',
+  REASONING_CANCELLED: 'REASONING_CANCELLED',
+};
+
+export const ALLOWED_ACTIONS = [
+  'INSPECT',
+  'RETRIEVE',
+  'DELIVER',
+  'INTERACT',
+  'INVESTIGATE',
+  'ASSIST',
+  'RETURN',
+  'WAIT',
+];
+
+export const ALLOWED_CONDITIONS = [
+  'TASK_RESULT',
+  'TARGET_AVAILABLE',
+  'TARGET_UNAVAILABLE',
+  'INSPECTION_REQUIRES_DOCUMENTATION',
+  'NAVIGATION_FAILED',
+];
+
+export const MAX_REASONING_STEPS = 12;

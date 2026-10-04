@@ -43,11 +43,16 @@ class Config:
 
     @classmethod
     def from_env(cls):
+        # Deployment aliases take precedence; all existing STEWARD_MCP_* names remain valid.
+        def setting(name, legacy, default=None):
+            return os.environ.get(name, os.environ.get(legacy, default))
+
         return cls(
-            database=Path(os.environ.get("STEWARD_MCP_DATABASE", str(cls().database))),
-            scenario=os.environ.get("STEWARD_MCP_SCENARIO", "normal"),
-            host=os.environ.get("STEWARD_MCP_HOST", "127.0.0.1"),
-            port=int(os.environ.get("STEWARD_MCP_PORT", "8001")),
-            bearer_token=os.environ.get("STEWARD_MCP_BEARER_TOKEN"),
-            public_host=os.environ.get("STEWARD_MCP_PUBLIC_HOST"),
+            database=Path(setting("MCP_DATABASE_PATH", "STEWARD_MCP_DATABASE", str(cls().database))),
+            scenario=setting("MCP_SCENARIO", "STEWARD_MCP_SCENARIO", "normal"),
+            host=setting("MCP_HOST", "STEWARD_MCP_HOST", "127.0.0.1"),
+            port=int(setting("PORT", "STEWARD_MCP_PORT", "8001")),
+            bearer_token=setting("MCP_AUTH_TOKEN", "STEWARD_MCP_BEARER_TOKEN"),
+            public_host=setting("MCP_PUBLIC_HOST", "STEWARD_MCP_PUBLIC_HOST",
+                                os.environ.get("RENDER_EXTERNAL_HOSTNAME")),
         )

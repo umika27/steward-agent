@@ -1,0 +1,2 @@
+# Shared pinned transport/client dependencies only; no Steward code imports.
+-r ../steward_mcp/requirements.txt

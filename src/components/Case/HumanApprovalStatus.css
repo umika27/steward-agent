@@ -1,0 +1,59 @@
+.human-approval-card {
+  flex: 1;
+  min-width: 200px;
+}
+
+.human-approval-card.is-required {
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.approval-badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.approval-badge.status-required {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.approval-badge.status-none {
+  background: rgba(148, 163, 184, 0.12);
+  color: #94a3b8;
+}
+
+.approval-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.approval-reason {
+  font-size: 0.75rem;
+  color: #fca5a5;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.approval-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 0.68rem;
+  font-family: var(--font-mono, monospace);
+  color: #cbd5e1;
+}
+
+.approval-body.compact {
+  padding: 2px 0;
+}
+
+.inactive-text {
+  font-size: 0.72rem;
+  color: #64748b;
+}
