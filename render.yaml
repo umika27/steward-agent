@@ -65,3 +65,42 @@ services:
         sync: false
       - key: DELHIVERY_MCP_AUTH_TOKEN
         sync: false
+
+  # Fourth independent service; imports unchanged rail implementations.
+  - type: web
+    name: steward-round3-gateway
+    runtime: python
+    plan: free
+    autoDeployTrigger: 'off'
+    buildCommand: python -m pip install -r integrations/steward_gateway/requirements.txt
+    startCommand: python -B -m integrations.steward_gateway.server
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.7
+      - key: STEWARD_GATEWAY_HOST
+        value: 0.0.0.0
+      - key: STEWARD_GATEWAY_MCP_AUTH_TOKEN
+        sync: false
+      - key: MCP_DATABASE_PATH
+        value: /tmp/steward_gateway_memory.sqlite3
+      - key: MCP_SCENARIO
+        value: normal
+      - key: MCP_AUTH_TOKEN
+        sync: false
+      - key: GNANI_EVIDENCE_PATH
+        value: /tmp/steward_gateway_voice.jsonl
+      - key: GNANI_API_KEY
+        sync: false
+      - key: GNANI_MCP_AUTH_TOKEN
+        sync: false
+      - key: DELHIVERY_DATABASE_PATH
+        value: /tmp/steward_gateway_shipments.sqlite3
+      - key: DELHIVERY_SCENARIO
+        value: NORMAL_SERVICEABLE
+      - key: DELHIVERY_WAREHOUSE_NAME
+        value: Steward Mock Warehouse
+      - key: DELHIVERY_MOCK_TOKEN
+        sync: false
+      - key: DELHIVERY_MCP_AUTH_TOKEN
+        sync: false

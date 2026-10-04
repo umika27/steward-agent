@@ -1,0 +1,2 @@
+# Reuse the existing pinned SDK/transport dependencies without altering them.
+-r ../steward_mcp/requirements.txt
