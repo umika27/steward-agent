@@ -3,22 +3,18 @@ services:
   - type: web
     name: steward-mcp
     runtime: python
-    plan: 0.5c-512mb
+    plan: free
     autoDeployTrigger: 'off'
     buildCommand: python -m pip install -r integrations/steward_mcp/requirements.txt
     startCommand: python -B -m integrations.steward_mcp.server
     healthCheckPath: /healthz
-    disk:
-      name: steward-mcp-memory
-      mountPath: /var/data/steward_mcp
-      sizeGB: 1
     envVars:
       - key: PYTHON_VERSION
         value: 3.13.7
       - key: MCP_HOST
         value: 0.0.0.0
       - key: MCP_DATABASE_PATH
-        value: /var/data/steward_mcp/runtime.sqlite3
+        value: /tmp/steward_mcp_runtime.sqlite3
       - key: MCP_SCENARIO
         value: normal
       - key: MCP_AUTH_TOKEN
@@ -28,22 +24,18 @@ services:
   - type: web
     name: gnani-voice-rail
     runtime: python
-    plan: 0.5c-512mb
+    plan: free
     autoDeployTrigger: 'off'
     buildCommand: python -m pip install -r integrations/gnani_voice/requirements.txt
     startCommand: python -B -m integrations.gnani_voice.server
     healthCheckPath: /healthz
-    disk:
-      name: gnani-voice-evidence
-      mountPath: /var/data/gnani_voice
-      sizeGB: 1
     envVars:
       - key: PYTHON_VERSION
         value: 3.13.7
       - key: GNANI_VOICE_HOST
         value: 0.0.0.0
       - key: GNANI_EVIDENCE_PATH
-        value: /var/data/gnani_voice/calls.jsonl
+        value: /tmp/gnani_voice_calls.jsonl
       - key: GNANI_API_KEY
         sync: false
       - key: GNANI_MCP_AUTH_TOKEN
@@ -53,22 +45,18 @@ services:
   - type: web
     name: delhivery-mock-rail
     runtime: python
-    plan: 0.5c-512mb
+    plan: free
     autoDeployTrigger: 'off'
     buildCommand: python -m pip install -r integrations/delhivery_mock/requirements.txt
     startCommand: python -B -m integrations.delhivery_mock.server
     healthCheckPath: /healthz
-    disk:
-      name: delhivery-mock-facts
-      mountPath: /var/data/delhivery_mock
-      sizeGB: 1
     envVars:
       - key: PYTHON_VERSION
         value: 3.13.7
       - key: DELHIVERY_HOST
         value: 0.0.0.0
       - key: DELHIVERY_DATABASE_PATH
-        value: /var/data/delhivery_mock/shipments.sqlite3
+        value: /tmp/delhivery_mock_shipments.sqlite3
       - key: DELHIVERY_SCENARIO
         value: NORMAL_SERVICEABLE
       - key: DELHIVERY_WAREHOUSE_NAME
